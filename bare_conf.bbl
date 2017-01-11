@@ -1,0 +1,173 @@
+\begin{thebibliography}{10}
+
+\bibitem{altman1968financial}
+E.~I. Altman.
+\newblock Financial ratios, discriminant analysis and the prediction of
+  corporate bankruptcy.
+\newblock {\em The journal of finance}, 23(4):589--609, 1968.
+
+\bibitem{antoniol2008bug}
+G.~Antoniol, K.~Ayari, M.~Di~Penta, F.~Khomh, and Y.-G. Gu{\'e}h{\'e}neuc.
+\newblock Is it a bug or an enhancement?: a text-based approach to classify
+  change requests.
+\newblock In {\em Proceedings of the 2008 conference of the center for advanced
+  studies on collaborative research: meeting of minds}, page~23. ACM, 2008.
+
+\bibitem{asaduzzaman2012bug}
+M.~Asaduzzaman, M.~C. Bullock, C.~K. Roy, and K.~A. Schneider.
+\newblock Bug introducing changes: A case study with android.
+\newblock In {\em Proceedings of the 9th IEEE Working Conference on Mining
+  Software Repositories}, pages 116--119. IEEE Press, 2012.
+
+\bibitem{vcubranic2003hipikat}
+D.~{\v{C}}ubranic and G.~C. Murphy.
+\newblock Hipikat: Recommending pertinent software development artifacts.
+\newblock In {\em Software Engineering, 2003. Proceedings. 25th International
+  Conference on}, pages 408--418. IEEE, 2003.
+
+\bibitem{eyolfson2011time}
+J.~Eyolfson, L.~Tan, and P.~Lam.
+\newblock Do time of day and developer experience affect commit bugginess?
+\newblock In {\em Proceedings of the 8th Working Conference on Mining Software
+  Repositories}, pages 153--162. ACM, 2011.
+
+\bibitem{fejzer2015supporting}
+M.~Fejzer, M.~Wojtyna, M.~Burza{\'n}ska, P.~Wi{\'s}niewski, and K.~Stencel.
+\newblock Supporting code review by automatic detection of potentially buggy
+  changes.
+\newblock In {\em Beyond Databases, Architectures and Structures}, pages
+  473--482. Springer, 2015.
+
+\bibitem{fischer2003analyzing}
+M.~Fischer, M.~Pinzger, and H.~Gall.
+\newblock {\em Analyzing and relating bug report data for feature tracking}.
+\newblock IEEE, 2003.
+
+\bibitem{fischer2003populating}
+M.~Fischer, M.~Pinzger, and H.~Gall.
+\newblock Populating a release history database from version control and bug
+  tracking systems.
+\newblock In {\em Software Maintenance, 2003. ICSM 2003. Proceedings.
+  International Conference on}, pages 23--32. IEEE, 2003.
+
+\bibitem{german2009change}
+D.~M. German, A.~E. Hassan, and G.~Robles.
+\newblock Change impact graphs: Determining the impact of prior codechanges.
+\newblock {\em Information and Software Technology}, 51(10):1394--1408, 2009.
+
+\bibitem{herzig2013s}
+K.~Herzig, S.~Just, and A.~Zeller.
+\newblock It's not a bug, it's a feature: how misclassification impacts bug
+  prediction.
+\newblock In {\em Proceedings of the 2013 International Conference on Software
+  Engineering}, pages 392--401. IEEE Press, 2013.
+
+\bibitem{hindle2008large}
+A.~Hindle, D.~M. German, and R.~Holt.
+\newblock What do large commits tell us?: a taxonomical study of large commits.
+\newblock In {\em Proceedings of the 2008 international working conference on
+  Mining software repositories}, pages 99--108. ACM, 2008.
+
+\bibitem{izquierdo2011developers}
+D.~Izquierdo-Cortazar, A.~Capiluppi, and J.~M. Gonzalez-Barahona.
+\newblock Are developers fixing their own bugs?: Tracing bug-fixing and
+  bug-seeding committers.
+\newblock {\em International Journal of Open Source Software and Processes
+  (IJOSSP)}, 3(2):23--42, 2011.
+
+\bibitem{kamei2010revisiting}
+Y.~Kamei, S.~Matsumoto, A.~Monden, K.-i. Matsumoto, B.~Adams, and A.~E. Hassan.
+\newblock Revisiting common bug prediction findings using effort-aware models.
+\newblock In {\em Software Maintenance (ICSM), 2010 IEEE International
+  Conference on}, pages 1--10. IEEE, 2010.
+
+\bibitem{kamei2013large}
+Y.~Kamei, E.~Shihab, B.~Adams, A.~E. Hassan, A.~Mockus, A.~Sinha, and
+  N.~Ubayashi.
+\newblock A large-scale empirical study of just-in-time quality assurance.
+\newblock {\em Software Engineering, IEEE Transactions on}, 39(6):757--773,
+  2013.
+
+\bibitem{kim2008classifying}
+S.~Kim, E.~J. Whitehead~Jr, and Y.~Zhang.
+\newblock Classifying software changes: Clean or buggy?
+\newblock {\em Software Engineering, IEEE Transactions on}, 34(2):181--196,
+  2008.
+
+\bibitem{kim2006automatic}
+S.~Kim, T.~Zimmermann, K.~Pan, and E.~J. Whitehead~Jr.
+\newblock Automatic identification of bug-introducing changes.
+\newblock In {\em Automated Software Engineering, 2006. ASE'06. 21st IEEE/ACM
+  International Conference on}, pages 81--90. IEEE, 2006.
+
+\bibitem{pan2009toward}
+K.~Pan, S.~Kim, and E.~J. Whitehead~Jr.
+\newblock Toward an understanding of bug fix patterns.
+\newblock {\em Empirical Software Engineering}, 14(3):286--315, 2009.
+
+\bibitem{prechelt2014software}
+L.~Prechelt and A.~Pepper.
+\newblock Why software repositories are not used for defect-insertion
+  circumstance analysis more often: A case study.
+\newblock {\em Information and Software Technology}, 56(10):1377--1389, 2014.
+
+\bibitem{rodriguez2016bugtracking}
+G.~Rodr{\'\i}guez-P{\'e}rez, J.~M. Gonzalez-Barahona, G.~Robles, D.~Dalipaj,
+  and N.~Sekitoleko.
+\newblock Bugtracking: A tool to assist in the identification of bug reports.
+\newblock In {\em IFIP International Conference on Open Source Systems}, pages
+  192--198. Springer, 2016.
+
+\bibitem{sinha2010buginnings}
+V.~S. Sinha, S.~Sinha, and S.~Rao.
+\newblock Buginnings: identifying the origins of a bug.
+\newblock In {\em Proceedings of the 3rd India software engineering
+  conference}, pages 3--12. ACM, 2010.
+
+\bibitem{sliwerski2005changes}
+J.~{\'S}liwerski, T.~Zimmermann, and A.~Zeller.
+\newblock When do changes induce fixes?
+\newblock {\em Proceedings of the 2005 International Workshop on Mining
+  software repositories}, pages 1--5, 2005.
+
+\bibitem{tantithamthavorn2015impact}
+C.~Tantithamthavorn, S.~McIntosh, A.~E. Hassan, A.~Ihara, and K.~Matsumoto.
+\newblock The impact of mislabelling on the performance and interpretation of
+  defect prediction models.
+\newblock In {\em Software Engineering (ICSE), 2015 IEEE/ACM 37th IEEE
+  International Conference on}, volume~1, pages 812--823. IEEE, 2015.
+
+\bibitem{tantithamthavorn2013mining}
+C.~Tantithamthavorn, R.~Teekavanich, A.~Ihara, and K.-i. Matsumoto.
+\newblock Mining a change history to quickly identify bug locations: A case
+  study of the eclipse project.
+\newblock In {\em Software Reliability Engineering Workshops (ISSREW), 2013
+  IEEE International Symposium on}, pages 108--113. IEEE, 2013.
+
+\bibitem{williams2008szz}
+C.~Williams and J.~Spacco.
+\newblock Szz revisited: verifying when changes induce fixes.
+\newblock In {\em Proceedings of the 2008 workshop on Defects in large software
+  systems}, pages 32--36. ACM, 2008.
+
+\bibitem{yangbug}
+H.~Yang, C.~Wang, Q.~Shi, Y.~Feng, and Z.~Chen.
+\newblock Bug inducing analysis to prevent fault prone bug fixes.
+\newblock In {\em Proceedings of the Twenty-Sixth International Conference on
+  Software Engineering and Knowledge Engineering (SEKE 2014)}, pages 620--625,
+  2014.
+
+\bibitem{yin2011fixes}
+Z.~Yin, D.~Yuan, Y.~Zhou, S.~Pasupathy, and L.~Bairavasundaram.
+\newblock How do fixes become bugs?
+\newblock In {\em Proceedings of the 19th ACM SIGSOFT symposium and the 13th
+  European conference on Foundations of software engineering}, pages 26--36.
+  ACM, 2011.
+
+\bibitem{zimmermann2007predicting}
+T.~Zimmermann, R.~Premraj, and A.~Zeller.
+\newblock Predicting defects for eclipse.
+\newblock In {\em Predictor Models in Software Engineering, 2007. PROMISE'07:
+  ICSE Workshops 2007. International Workshop on}, pages 9--9. IEEE, 2007.
+
+\end{thebibliography}
