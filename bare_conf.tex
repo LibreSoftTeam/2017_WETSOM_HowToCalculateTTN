@@ -352,7 +352,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{How much time did it take to notify a Bug? \\ Two case of studies: ElasticSearch and Nova}
+\title{How long did it take to notify a bug? A case of study in ElasticSearch and Nova projects}
 
 
 % author names and affiliations
@@ -375,7 +375,7 @@ jgb@gsyc.es}
 \IEEEauthorblockA{LibreSoft/GSyC\\
 University Rey Juan Carlos\\
 Fuenlabrada, Spain\\
-grex@gsyc.urjc.es}
+grex@gsyc.es}
 %\IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
 %\IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
 %line 2: name of organization, acronyms acceptable\\
@@ -419,7 +419,11 @@ grex@gsyc.urjc.es}
 
 
 \begin{abstract}
-The \emph{Time To Notify} (TTN) a bug is a valuable metric in the software maintenance and evolution studies that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. Even so, it is still a challenge to exactly calculate it since no precise way exists to locate the line where the bug originated. This paper aims to study what is the value of TTN in a two different projects where we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the \emph{time to fix} (TTF) or the developer experience. As results, we have observed that the mean of the TTN in the projects was 312 days and 431 days. However, only one of the projects showed a weak correlation between the experience of the author who created the bug and TTN.
+
+``The Time To Notify (TTN)'' is a valuable metric in the software maintenance and evolution studies that describes how long it takes for a bug to be notified in the software and reported by a developer in the issue tracking system since it was inserted into the source code. However, it is still a challenge calculate exactly how long is it since there is no way to precisely locate what line created the bug. This paper aims to study what is the value of the TTN in a small dataset of two different projects where we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, we also analyze the relationship between ``The Time To Notify'' and other metrics extracted from the source code management (SCM) such as the author of the bug, the time to fix or the developer experience to may better understand the software maintenance evolution.
+
+As results, the mean of the TTN in the projects was 312 days and 431 days. But only one of the projects showed a weak correlation between the experience of the author who created the bug and the TTN.
+
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -441,31 +445,43 @@ Bug introduction change; bug seeding metrics;
 
 
 \section{Introduction}
-
-
+We will write about: \\
+	- Why calculate the TTN is important in the OSS, (some hypothesis) \\
+	- What is the current main problem calculating this metric \\
+	- The aim's paper.
 \section{Related Work}
-
-
+- Metrics for Gerrit code reviews (http://ceur-ws.org/Vol-1525/paper-03.pdf) \\
+- Studying the Fix-Time for Bugs in Large Open Source Projects (https://pdfs.semanticscholar.org/cb51/037393704483ff5e9760213d4052fecbbe86.pdf) \\
+- How long did it take to fix bugs? (https://pdfs.semanticscholar.org/fca9/1e9f5b6a8d884558b722116d45df68031945.pdf) \\
+- Bug-fix Time Prediction Models: Can We Do Better? (https://pdfs.semanticscholar.org/921b/cfe0531c599176ba3cf01c072552b2058b6f.pdf)
+- Do More Experienced Developers Introduce Fewer Bugs? ()
+-Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers
 
 \section{Methodology}
 \label{sec:methodology}
+- Explain how locate the BIC and the metrics that we have extracted after the BIC was found.
 
 \section{Evaluation}
 \label{sec:evaluation}
-
+- The two cases of studio, ElasticSearch y Nova, the reasons why we have chosen them.
 
 \section{Results}
 \label{sec:results}
-
+- TTN
+- TTN vs TTN(SZZ)
+- Correlation TTN with other metrics
+- Plots and graphs
 
 \section{Discussion}
 \label{sec:discussion}
-
+- Possibles explanations for the TTN according to the results and have into account the other metrics
 
 
 \section{Threats to validity}
 \label{sec:threats}
 
+- Small data.
+- OpenSatck is continuously evolving 
 
 
 
