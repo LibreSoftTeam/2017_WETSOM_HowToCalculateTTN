@@ -212,6 +212,7 @@
 \usepackage{amsmath}
 \usepackage{centernot}
 \usepackage{tikz}
+\usepackage{xspace}
 
 % *** ALIGNMENT PACKAGES ***
 %
@@ -352,7 +353,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{How long did it take to notify a bug? A case of study in ElasticSearch and Nova projects}
+\title{How much time did it take to notify a Bug? \\ Two case of studies: ElasticSearch and Nova}
 
 
 % author names and affiliations
@@ -375,7 +376,7 @@ jgb@gsyc.es}
 \IEEEauthorblockA{LibreSoft/GSyC\\
 University Rey Juan Carlos\\
 Fuenlabrada, Spain\\
-grex@gsyc.es}
+grex@gsyc.urjc.es}
 %\IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
 %\IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
 %line 2: name of organization, acronyms acceptable\\
@@ -420,9 +421,10 @@ grex@gsyc.es}
 
 \begin{abstract}
 
-``The Time To Notify (TTN)'' is a valuable metric in the software maintenance and evolution studies that describes how long it takes for a bug to be notified in the software and reported by a developer in the issue tracking system since it was inserted into the source code. However, it is still a challenge calculate exactly how long is it since there is no way to precisely locate what line created the bug. This paper aims to study what is the value of the TTN in a small dataset of two different projects where we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, we also analyze the relationship between ``The Time To Notify'' and other metrics extracted from the source code management (SCM) such as the author of the bug, the time to fix or the developer experience to may better understand the software maintenance evolution.
+The \emph{Time To Notify} (TTN) a bug is a valuable metric in the software maintenance and evolution studies that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. Even so, it is still a challenge to exactly calculate it since no precise way exists to locate the line where the bug originated. This paper aims to study what is the value of TTN in a two different projects where we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the \emph{time to fix} (TTF) or the developer experience.\\ 
 
-As results, the mean of the TTN in the projects was 312 days and 431 days. But only one of the projects showed a weak correlation between the experience of the author who created the bug and the TTN.
+
+As results, we have observed that the mean of the TTN in the projects was 312 days and 431 days. However, only one of the projects showed a weak correlation between the experience of the author who created the bug and TTN.
 
 \end{abstract}
 
@@ -445,24 +447,45 @@ Bug introduction change; bug seeding metrics;
 
 
 \section{Introduction}
-We will write about: \\
-	- Why calculate the TTN is important in the OSS, (some hypothesis) \\
-	- What is the current main problem calculating this metric \\
-	- The aim's paper.
+\label{sec:intro}
+
+The \emph{Time To Notify} (TTN) a bug is a valuable metric that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. This time could be computed as part of the Bug fixing activity, which is one of the core activities in the software maintenance and evolution. It is estimated that 80\% of the total cost of a software system is spent on it~\cite{tassey2002economic}. Hence, researchers are laying many effort understanding and characterizing such process with metrics such as the \emph{Time To Fix}(TTF), the \emph{Time To Review}(TTR) or the \emph{fix-effort} to improve code quality.
+
+In fact, to compute the life of a bug from its origin to the end in the software, it is necessary know exactly what line, and as a consequence what commit, created the bug. However, this is not a trivial task and several methods are used to determine the commits to be candidate of inserting the bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them, it traces back the lines touched in a fixing commit to the time when they were modified or added resulting in the commit(s) considered as bug introducing change. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines. For that reason, we are interesting in studying the real value of such metrics in a small dataset answering to the following research questions. 
+
+\begin{itemize}
+\item RQ1: What is the real mean of time to notify in both projects ?
+\item RQ3: Is there any correlation of TTN with others measures in the bug fixing process ?
+\end{itemize}
+
+In this paper we are measuring the TTN in a two different projects, ElasticSearch and Nova, where we know exactly the location of the \emph{Bug Introducing Change}(BIC). Meaning that from a bunch of ``previous commits'' to each of the fixed lines after solving the bug, we are able to identify which previous commit caused the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
+
+Our main findings reveal that the real time to notify differs from one month in ElasticSearch to three months in Nova with the TTN calculated using the assumption following by the methods to locate the origin of the bug. In the other hand, only one of the projects showed a weak correlation between the time to notify and the experience of the author who created the bug.
+
+The remainder of the paper is organized as follows. In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculate the metrics, followed by the results obtained in a selection of Nova and ElasticSearch bug fixes in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements of our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out some potential future work in Section~\ref{sec:conclusions}.
+
 \section{Related Work}
+\label{sec:relatedwork}
+Talk about prior studies: \\
+
 - Metrics for Gerrit code reviews (http://ceur-ws.org/Vol-1525/paper-03.pdf) \\
 - Studying the Fix-Time for Bugs in Large Open Source Projects (https://pdfs.semanticscholar.org/cb51/037393704483ff5e9760213d4052fecbbe86.pdf) \\
-- How long did it take to fix bugs? (https://pdfs.semanticscholar.org/fca9/1e9f5b6a8d884558b722116d45df68031945.pdf) \\
+- How long did it take to fix bugs? (https://pdfs.semanticscholar.org/fca9/1e9f5b6a8d884558b722116d45df68031945.pdf) --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)\\
 - Bug-fix Time Prediction Models: Can We Do Better? (https://pdfs.semanticscholar.org/921b/cfe0531c599176ba3cf01c072552b2058b6f.pdf)
 - Do More Experienced Developers Introduce Fewer Bugs? ()
--Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers
+-Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers\\
+
+Talk about how different is our study to prior works:\\
+
+Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time}, it's a similar metric to TTN but while the \emph{Bug Fixing Time} is an estimation to calculate the time since bugs were introduced until the bug was fixed, the TTN is a concrete metric to compute the time since bugs were injected until they were notify in the wrong behaviour of the software.
 
 \section{Methodology}
 \label{sec:methodology}
+To compute the Time To Notify, we need to identify bug introducing changes and their corresponding fixes to be able of measure the time between them. (Example)
 - Explain how locate the BIC and the metrics that we have extracted after the BIC was found.
 
-\section{Evaluation}
-\label{sec:evaluation}
+%\section{Evaluation}
+%\label{sec:evaluation}
 - The two cases of studio, ElasticSearch y Nova, the reasons why we have chosen them.
 
 \section{Results}
@@ -471,6 +494,61 @@ We will write about: \\
 - TTN vs TTN(SZZ)
 - Correlation TTN with other metrics
 - Plots and graphs
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{boxplotNova.png}
+\caption{BoxPlot in Nova}
+\label{fig:graph4}       % Give a unique label
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{boxplotES.png}
+\caption{BoxPlot in ES}
+\label{fig:graph5}       % Give a unique label
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{correlationMatrix.png}
+\caption{Correlation Matrix of each metric in Nova project}
+\label{fig:graph}       % Give a unique label
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{DistributionNova_b.png}
+\caption{Distribution of the metrics in Nova project}
+\label{fig:graph2}       % Give a unique label
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{DistributionES_b.png}
+\caption{Distribution of the metrics in Nova project}
+\label{fig:graph3}       % Give a unique label
+\end{figure}
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.3}
+\label{tableI}
+\centering
+\caption{Mean in days of the TTN, TTN\_o, TTN\_p and TTF in each project}
+% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+\begin{tabular}{|c||c||c||c||c| }
+\hline
+  & TTN & TTN\_o & TTN\_p & TTF \\
+\hline
+Nova & 431 & 257 & 410 & 64 \\
+\hline
+ElasticSearch & 312 & 171 & 375 & 14\\
+\hline
+\end{tabular}
+\end{table}
+
 
 \section{Discussion}
 \label{sec:discussion}
@@ -525,8 +603,8 @@ We want to express our gratitude to Bitergia\footnote{\url{http://bitergia.com/}
 %\end{thebibliography}
 \newpage
 
-%\bibliographystyle{abbrv}
-%\bibliography{sigproc} 
+\bibliographystyle{abbrv}
+\bibliography{sigproc} 
 
 
 % that's all folks
