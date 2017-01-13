@@ -320,7 +320,10 @@
 % cuted.sty or midfloat.sty packages (also by Sigitas Tolusis) as IEEE does
 % not format its papers in such ways.
 
+\newif\ifdraft
+\drafttrue
 
+\input{macros}
 
 
 
@@ -444,51 +447,51 @@ Bug introduction change; bug seeding metrics;
 \section{Introduction}
 \label{sec:intro}
 
-The \emph{Time To Notify} (TTN) a bug is a valuable metric that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. This time could be computed as part of the Bug fixing activity, which is one of the core activities in the software maintenance and evolution. It is estimated that 80\% of the total cost of a software system is spent on it~\cite{tassey2002economic}. Hence, researchers are laying many effort understanding and characterizing such process with metrics such as the \emph{Time To Fix}(TTF), the \emph{Time To Review}(TTR) or the \emph{fix-effort} to improve code quality.
+The \emph{Time To Notify} (TTN) a bug is a valuable metric that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code \grex{It is better to not repeat sentences from the abstract}. TTN could be computed as part of the bug fixing activity, which is one of the core activities in software maintenance and evolution. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality.
 
-In fact, to compute the life of a bug from its origin to the end in the software, it is necessary know exactly what line, and as a consequence what commit, created the bug. However, this is not a trivial task and several methods are used to determine the commits to be candidate of inserting the bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them, it traces back the lines touched in a fixing commit to the time when they were modified or added resulting in the commit(s) considered as bug introducing change. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines. For that reason, we are interesting in studying the real value of such metrics in a small dataset answering to the following research questions. 
+In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The resulting commit or set of commits is considered as the one who introduced the bug. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines \grex{Not clear what you want to say in the last sentence}. \grex{We should say that SZZ provides a \emph{flawed} metric, because it does not consider specific scenarios that frequently happen during the evolution of a software system, such as changes in the API, etc.}
+
+In this paper, we measure TTN for a set of bugs from two different Free/Libre/Open Source (FLOSS) software projects, ElasticSearch and Nova. Because of previous research performed on them, we know exactly the location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a bunch of ``previous commits'' of each of the fixed \grex{fixing?} lines, we are able to identify what specific previous commit or set of previous commits caused the failure in the system.
+
+Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
+
+Summing up, we are interested in studying the real value of TTN to answer following research questions:
 
 \begin{itemize}
-\item RQ1: What is the real mean of time to notify in both projects ?
-\item RQ3: Is there any correlation of TTN with others measures in the bug fixing process ?
+\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
+\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process?
 \end{itemize}
 
-In this paper we are measuring the TTN in a two different projects, ElasticSearch and Nova, where we know exactly the location of the \emph{Bug Introducing Change}(BIC). Meaning that from a bunch of ``previous commits'' to each of the fixed lines after solving the bug, we are able to identify which previous commit caused the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
+Our main findings reveal that the \emph{real} mean TTN ranges from one month in ElasticSearch to three months in Nova \grex{How different is it from the way it is done with SZZ?}. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug.
 
-Our main findings reveal that the real time to notify differs from one month in ElasticSearch to three months in Nova with the TTN calculated using the assumption following by the methods to locate the origin of the bug. In the other hand, only one of the projects showed a weak correlation between the time to notify and the experience of the author who created the bug.
-
-The remainder of the paper is organized as follows. In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculate the metrics, followed by the results obtained in a selection of Nova and ElasticSearch bug fixes in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements of our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out some potential future work in Section~\ref{sec:conclusions}.
+The remainder of the paper is organized as follows: In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculates the metrics, followed by the results obtained from Nova and ElasticSearch in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements to our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out potential future work in Section~\ref{sec:conclusions}.
 
 \section{Related Work}
 \label{sec:relatedwork}
 
 To measure experience exists several ways: (1) Number of Commits~\cite{eyolfson2011time}, (2) Fixing activity~\cite{ahsan2010mining} and (3) Ownership~\cite{german2004using}
 
-I must talk about these prior studies: \\
+I must talk about these prior studies:
+ Metrics for Gerrit code reviews~\cite{lehtonen2015metrics} --> Monitoring the code review process is not as easy as was we could think in spite of tools as Gerrit, they introduced the Review time, integration time, average number of patch-sets (Maybe discard it)???
+ 
+Studying the Fix-Time for Bugs in Large Open Source Projects ~\cite{marks2011studying} --> They studied the dependence of  the fix-time for bugs with their attributes in a large open source projects where the results indicated that the priority of the bug in Eclipse was correlated with the time to fix
 
-- Metrics for Gerrit code reviews~\cite{lehtonen2015metrics} --> Monitoring the code review process is not as easy as was we could think in spite of tools as Gerrit, they introduced the Review time, integration time, average number of patch-sets (Maybe discard it)???\\
-- Studying the Fix-Time for Bugs in Large Open Source Projects ~\cite{marks2011studying} --> They studied the dependence of  the fix-time for bugs with their attributes in a large open source projects where the results indicated that the priority of the bug in Eclipse was correlated with the time to fix\\
-- How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)\\
-- Bug-fix Time Prediction Models: Can We Do Better? ~\cite{bhattacharya2011bug} \\
-- Do More Experienced Developers Introduce Fewer Bugs? ~\cite{izquierdo2012more} --> they analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results didn't show that correlation. More experience doesn't imply less bug introducing changes. They used the SZZ\\
-- Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers ~\cite{izquierdo2011developers} --> They were looking to understand if these contributors who introduced the bug are the same who fixed it, the results showed that in most cases the bug fixing activity was not carried aout by the author or the bug introducing change. assume SZZ theory\\
+How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)
 
-Talk about how different is our study to prior works:\\
+Bug-fix Time Prediction Models: Can We Do Better? ~\cite{bhattacharya2011bug} 
+
+Do More Experienced Developers Introduce Fewer Bugs? ~\cite{izquierdo2012more} --> they analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results didn't show that correlation. More experience doesn't imply less bug introducing changes. They used the SZZ
+
+Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers ~\cite{izquierdo2011developers} --> They were looking to understand if these contributors who introduced the bug are the same who fixed it, the results showed that in most cases the bug fixing activity was not carried out by the author or the bug introducing change. assume SZZ theory
+
+Talk about how different is our study to prior works:
 
 Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time} (BFT), it's a similar metric to TTN but while the \emph{Bug Fixing Time} is an estimation to calculate the time since bugs were introduced until the bug was fixed, the TTN is a concrete metric to compute the time since bugs were injected until they notified the wrong behaviour of the software, this value doesn't have include the time to fix.
 
 \section{Methodology}
 \label{sec:methodology}
-In our study the data analyzed was obtained from the source code management, issue tracking system and code review system. We will illustrate our methodology in the Figure~\ref{fig:methodology} where the income was a set of bug reports extracted randomly from the issue tracking system. Each white box present a different stage and each narrow indicates the next stage until obtain the value of the metrics. The colored box represents which source is been used to obtain the information required in each stage.
 
-The following list is a detailed description of the stages: 
-\begin{itemize}
-		\item Finding the fixing commit of each bug report.
-		\item Finding the lines that this commit added, modified or deleted to solve the bug.
-		\item For each of those lines extract which commit added, modified or deleted last these lines to obtain the previous commit of each line.
-		\item Analyzed which one of the previous commit was the bug introducing change. In the case of none of them was the cause of the bug, track back each previous commit until find the line causing the failure in some of the antecesor commits.
-		\item Extracting the date when the fixing commit, bug introduction change and bug report was submitted, as well as the author of each one to calculate our metrics.	
-\end{itemize} 
+In our study the data analyzed was obtained from the source code management, the issue tracking system and the code review system. We will illustrate our methodology in Figure~\ref{fig:methodology} where the income is a set of bug reports extracted randomly from the issue tracking system. The steps of our process are given by white boxes; the colored boxes give the sources that are used to obtain the information required in each step.
 
 \begin{figure}[ht]
 \centering
@@ -497,10 +500,23 @@ The following list is a detailed description of the stages:
 \label{fig:methodology}       % Give a unique label
 \end{figure}
 
-\subsection{The Metrics}
-To compute all the metrics used in this study, we need to identify the bug introducing change. Once we have it, we are able to measure exactly all the time values we want without any kind of doubt.  
+The following list is a detailed description of the steps: 
 
-Next, we describe all the metrics under interest in this study. Notice that the value of all this metrics has been calculated in days: 
+\begin{enumerate}
+		\item Find the fixing commit of each bug report.
+		\item Find the lines that this commit added, modified or deleted to solve the bug.
+		\item Obtain, for each of those lines, the commit that added, modified or deleted these lines previously. The result is the previous commit for each line.
+		\item Analyze which one of the previous commits was the BIC. In the case where none of them was the cause of the bug, track back each previous commit until the line causing the failure can be found in some of the previous commits. \grex{What happens if it is a fixing commit that only adds lines?}
+		\item Extract the date when the fixing commit, the BIC and the bug report was submitted, as well as the author of each of the commits to calculate our metrics.	
+\end{enumerate} 
+
+
+\subsection{Metrics}
+
+To compute all the metrics used in this study, we need to identify the BIC. Once we have it, we are able to measure exactly all the time values we want.  
+
+Next, we describe the metrics. Notice that the value of all these metrics has been calculated in days: 
+
 \begin{itemize}
 		\item \emph{Experience Until the Bug} (EUB): The time of experience that presents the author of the bug introducing change at the moment of submit such commit to the repository. The experience is measured from the first time that the author committed some code to the project until (s)he introduced the commit with the buggy line.
 		\item \emph{Time To Notify} (TTN): This value measures the time since the commit inserted the bug was merged into he master branch until some developer notified the unexpected behavior and reported it. 
@@ -545,14 +561,14 @@ In this study we used a data set created in a prior research work where we analy
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotNova.png}
-\caption{BoxPlot in Nova}
+\caption{Box-Plot in Nova}
 \label{fig:graph4}       % Give a unique label
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotES.png}
-\caption{BoxPlot in ES}
+\caption{Box-Plot in ES}
 \label{fig:graph5}       % Give a unique label
 \end{figure}
 
@@ -605,19 +621,19 @@ ElasticSearch & 312 & 171 & 375 & 14\\
 \section{Threats to validity}
 \label{sec:threats}
 
-The limited sample size of tickets used in this research is the major threat to its validity. It is relatively high considering that the analysis was done manually and in detail to reach reliables results, but there is a long way to get a representative sample from a variety of free/open source systems, or software projects at large. Our analysis requires a lot of human effort, so increasing meaningfully the number of tickets is difficult. However, it should be noted that our numbers are the order of magnitude of similar studies: for instance Hindle's \emph{et al.} ~\cite{hindle2008large} article on large commits, considered 100 commits.
+The limited sample size of tickets used in this research is the major threat to its validity. It is relatively high considering that the analysis was done manually and in detail to reach reliable results, but there is a long way to get a representative sample from a variety of free/open source systems, or software projects at large. Our analysis requires a lot of human effort, so increasing meaningfully the number of tickets is difficult. However, it should be noted that our numbers are the order of magnitude of similar studies: for instance Hindle's \emph{et al.} ~\cite{hindle2008large} article on large commits, considered 100 commits.
 
 Other internal threats to validity are:
 \begin{itemize}
     \item We are only using part of the information that the tickets provide, like comments and text. There could be some patterns that can be found in other parts of the information, but we think that this information is enough to determine where the bug introducing change is, due to the comments of the developers in the ticket give several information about what is failing in the code.
     \item In some cases, when only new code was added by the bug fixing commit, researchers may have some problems to compare their TTN with the SZZ because of SZZ does not considered the new additions in the fixing commits. 
-    \item The experience of the developer calculated from its first commit in the system may not be the best definition to indicate the experience of the author due to a old contributor could have less commit and as a consequence less experience in the project that a new active contributor who is commiting all time.
+    \item The experience of the developer calculated from its first commit in the system may not be the best definition to indicate the experience of the author due to a old contributor could have less commit and as a consequence less experience in the project that a new active contributor who is committing all time.
 \end{itemize}
 
 The most important external threats, most of them related to peculiarities of the Nova project, are:
 \begin{itemize}
     \item OpenStack is a special project with a very rapid evolution, and a very active community of developer and ElasticSearch is relatively new project with a strong criteria in the bug fix activity. Maybe, in other projects with less commits per year, results may be totally different.
-    \item The programing languages analyzed at this research are Python and Java Script: It may happen that other programming languages present different results
+    \item The programming languages analyzed at this research are Python and Java Script: It may happen that other programming languages present different results
 \end{itemize}
 
 \section{Conclusion}

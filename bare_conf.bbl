@@ -24,6 +24,12 @@ D.~M. German.
 \newblock {\em Journal of Software Maintenance and Evolution: Research and
   Practice}, 16(6):367--384, 2004.
 
+\bibitem{hindle2008large}
+A.~Hindle, D.~M. German, and R.~Holt.
+\newblock What do large commits tell us?: a taxonomical study of large commits.
+\newblock In {\em Proceedings of the 2008 international working conference on
+  Mining software repositories}, pages 99--108. ACM, 2008.
+
 \bibitem{izquierdo2011developers}
 D.~Izquierdo-Cortazar, A.~Capiluppi, and J.~M. Gonzalez-Barahona.
 \newblock Are developers fixing their own bugs?: Tracing bug-fixing and
@@ -46,7 +52,8 @@ S.~Kim and E.~J. Whitehead~Jr.
 \bibitem{lehtonen2015metrics}
 S.~Lehtonen and T.~Poranen.
 \newblock Metrics for gerrit code reviews.
-\newblock 2015.
+\newblock In {\em Proceedings of the 14th Symposium on Programming Languages
+  and Software Tools}, page~15, 2015.
 
 \bibitem{marks2011studying}
 L.~Marks, Y.~Zou, and A.~E. Hassan.
