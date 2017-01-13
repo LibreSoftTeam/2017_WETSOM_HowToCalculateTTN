@@ -362,26 +362,21 @@
 
 \author{\IEEEauthorblockN{Gema Rodriguez-Perez}
 \IEEEauthorblockA{LibreSoft/GSyC\\
-University Rey Juan Carlos\\
+Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 gerope@libresoft.es}
 \and
 \IEEEauthorblockN{Jesus M. Gonzalez-Barahona}
 \IEEEauthorblockA{LibreSoft/GSyC\\
-University Rey Juan Carlos\\
+Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 jgb@gsyc.es}
 \and
 \IEEEauthorblockN{Gregorio Robles}
 \IEEEauthorblockA{LibreSoft/GSyC\\
-University Rey Juan Carlos\\
+Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 grex@gsyc.urjc.es}
-%\IEEEauthorblockN{Authors Name/s per 2nd Affiliation (Author)}
-%\IEEEauthorblockA{line 1 (of Affiliation): dept. name of organization\\
-%line 2: name of organization, acronyms acceptable\\
-%line 3: City, Country\\
-%line 4: Email: name@xyz.com}
 }
 
 % conference papers do not typically use \thanks and this command
@@ -466,27 +461,53 @@ The remainder of the paper is organized as follows. In Section~\ref{sec:relatedw
 
 \section{Related Work}
 \label{sec:relatedwork}
-Talk about prior studies: \\
 
-- Metrics for Gerrit code reviews (http://ceur-ws.org/Vol-1525/paper-03.pdf) \\
-- Studying the Fix-Time for Bugs in Large Open Source Projects (https://pdfs.semanticscholar.org/cb51/037393704483ff5e9760213d4052fecbbe86.pdf) \\
-- How long did it take to fix bugs? (https://pdfs.semanticscholar.org/fca9/1e9f5b6a8d884558b722116d45df68031945.pdf) --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)\\
-- Bug-fix Time Prediction Models: Can We Do Better? (https://pdfs.semanticscholar.org/921b/cfe0531c599176ba3cf01c072552b2058b6f.pdf)
-- Do More Experienced Developers Introduce Fewer Bugs? ()
--Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers\\
+To measure experience exists several ways: (1) Number of Commits~\cite{eyolfson2011time}, (2) Fixing activity~\cite{ahsan2010mining} and (3) Ownership~\cite{german2004using}
+
+I must talk about these prior studies: \\
+
+- Metrics for Gerrit code reviews~\cite{lehtonen2015metrics} --> Monitoring the code review process is not as easy as was we could think in spite of tools as Gerrit, they introduced the Review time, integration time, average number of patch-sets (Maybe discard it)???\\
+- Studying the Fix-Time for Bugs in Large Open Source Projects ~\cite{marks2011studying} --> They studied the dependence of  the fix-time for bugs with their attributes in a large open source projects where the results indicated that the priority of the bug in Eclipse was correlated with the time to fix\\
+- How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)\\
+- Bug-fix Time Prediction Models: Can We Do Better? ~\cite{bhattacharya2011bug} \\
+- Do More Experienced Developers Introduce Fewer Bugs? ~\cite{izquierdo2012more} --> they analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results didn't show that correlation. More experience doesn't imply less bug introducing changes. They used the SZZ\\
+- Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers ~\cite{izquierdo2011developers} --> They were looking to understand if these contributors who introduced the bug are the same who fixed it, the results showed that in most cases the bug fixing activity was not carried aout by the author or the bug introducing change. assume SZZ theory\\
 
 Talk about how different is our study to prior works:\\
 
-Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time}, it's a similar metric to TTN but while the \emph{Bug Fixing Time} is an estimation to calculate the time since bugs were introduced until the bug was fixed, the TTN is a concrete metric to compute the time since bugs were injected until they were notify in the wrong behaviour of the software.
+Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time} (BFT), it's a similar metric to TTN but while the \emph{Bug Fixing Time} is an estimation to calculate the time since bugs were introduced until the bug was fixed, the TTN is a concrete metric to compute the time since bugs were injected until they notified the wrong behaviour of the software, this value doesn't have include the time to fix.
 
 \section{Methodology}
 \label{sec:methodology}
+In our study the data analyzed was obtained from the source code management (Git\footnote{\url{https://git-scm.com/}}), issue tracking system (Launchpad\footnote{\url{https://launchpad.net/}}) and code review system (Gerrit\footnote{\url{https://www.gerritcodereview.com/}}). Furthermore, GitHub\footnote{\url{https://github.com/}} has been used such as issue tracking system and pull request system. GitHub and Launchpad work with issue reports called tickets, which describe bug reports, feature request, maintenance tickets, and even design discussions. In our study, however we are only interested specifically in those tickets that describe a bug report that has been fixed (i.e., merged into the code source) and closed.
+
+In our study we analyzed bug reports extracted from two different system. 
 To compute the Time To Notify, we need to identify bug introducing changes and their corresponding fixes to be able of measure the time between them. (Example)
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{metrics.png}
+\caption{metrics}
+\label{fig:graph6}       % Give a unique label
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{methodology.png}
+\caption{methodology}
+\label{fig:graph6}       % Give a unique label
+\end{figure}
 - Explain how locate the BIC and the metrics that we have extracted after the BIC was found.
 
-%\section{Evaluation}
-%\label{sec:evaluation}
-- The two cases of studio, ElasticSearch y Nova, the reasons why we have chosen them.
+\section{Evaluation}
+\label{sec:evaluation}
+We have validated our methodology analyzing the tickets from two different projects written in different programming languages. Nova uses a dynamic language whereas ElasticSearch uses a statically language. Thus, we may study the dependency of the results with the programming language that the project is using.
+
+In one hand, Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors \footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its history is saved and available in a version control system\footnote{\url{https://wiki.openstack.org/wiki/Getting_The_Code}}, as well as its issue tracking system (Launchpad\footnote{\url{https://launchpad.net/openstack}}) and the source code review system (Gerrit\footnote{\url{https://review.openstack.org/}}). 
+
+On the contrary, ElasticSearch is a distributed open source search and analytics engine written in Java. In spite of it has less number of commits and contributors than OpenStack, 26,000 commit and 764 contributors, its policy of label an issue as bug report is very strict, thus we could be sure that the tickets analyzed are real bug reports. Furthermore, all its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}}, as well as its issue list is available on GitHub\footnote{\url{https://github.com/elastic/elasticsearch/issues}}
+
+
+For these two projects we analyzed the tickets looking for their trueBIC, trying to determinate if the previous commit to the fix of the ticket is a BIC. The first stage was only used in Nova due to Launchpad does not distinguish bug reports from other issues as ElasticSearch does it with its strong policy of bug label in GitHub. Thus, two different researchers, were involved in this stage, resulting that each ticket was analyzed by both researchers independently. The second stage was done manually by the first author discussing some difficult situations with two of the authors.
 
 \section{Results}
 \label{sec:results}
