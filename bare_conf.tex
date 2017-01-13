@@ -479,35 +479,61 @@ Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time} (BFT),
 
 \section{Methodology}
 \label{sec:methodology}
-In our study the data analyzed was obtained from the source code management (Git\footnote{\url{https://git-scm.com/}}), issue tracking system (Launchpad\footnote{\url{https://launchpad.net/}}) and code review system (Gerrit\footnote{\url{https://www.gerritcodereview.com/}}). Furthermore, GitHub\footnote{\url{https://github.com/}} has been used such as issue tracking system and pull request system. GitHub and Launchpad work with issue reports called tickets, which describe bug reports, feature request, maintenance tickets, and even design discussions. In our study, however we are only interested specifically in those tickets that describe a bug report that has been fixed (i.e., merged into the code source) and closed.
+In our study the data analyzed was obtained from the source code management, issue tracking system and code review system. We will illustrate our methodology in the Figure~\ref{fig:methodology} where the income was a set of bug reports extracted randomly from the issue tracking system. Each white box present a different stage and each narrow indicates the next stage until obtain the value of the metrics. The colored box represents which source is been used to obtain the information required in each stage.
 
-In our study we analyzed bug reports extracted from two different system. 
-To compute the Time To Notify, we need to identify bug introducing changes and their corresponding fixes to be able of measure the time between them. (Example)
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\columnwidth]{metrics.png}
-\caption{metrics}
-\label{fig:graph6}       % Give a unique label
-\end{figure}
+The following list is a detailed description of the stages: 
+\begin{itemize}
+		\item Finding the fixing commit of each bug report.
+		\item Finding the lines that this commit added, modified or deleted to solve the bug.
+		\item For each of those lines extract which commit added, modified or deleted last these lines to obtain the previous commit of each line.
+		\item Analyzed which one of the previous commit was the bug introducing change. In the case of none of them was the cause of the bug, track back each previous commit until find the line causing the failure in some of the antecesor commits.
+		\item Extracting the date when the fixing commit, bug introduction change and bug report was submitted, as well as the author of each one to calculate our metrics.	
+\end{itemize} 
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{methodology.png}
-\caption{methodology}
-\label{fig:graph6}       % Give a unique label
+\caption{The methodology diagram, starting with the analysis of a fix commit and finishing with the value of the metrics}
+\label{fig:methodology}       % Give a unique label
 \end{figure}
-- Explain how locate the BIC and the metrics that we have extracted after the BIC was found.
+
+\subsection{The Metrics}
+To compute all the metrics used in this study, we need to identify the bug introducing change. Once we have it, we are able to measure exactly all the time values we want without any kind of doubt.  
+
+Next, we describe all the metrics under interest in this study. Notice that the value of all this metrics has been calculated in days: 
+\begin{itemize}
+		\item \emph{Experience Until the Bug} (EUB): The time of experience that presents the author of the bug introducing change at the moment of submit such commit to the repository. The experience is measured from the first time that the author committed some code to the project until (s)he introduced the commit with the buggy line.
+		\item \emph{Time To Notify} (TTN): This value measures the time since the commit inserted the bug was merged into he master branch until some developer notified the unexpected behavior and reported it. 
+		\item \emph{Time To Fix} (TTF): It refers to the necessary time to fix a bug. This value is the period from a bug report was opened until it was closed by a fixing commit.
+		\item \emph{Bug Fixing Time} (BFT): It measures the time from the Bug Inserting change date and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
+\end{itemize} 
+
+The Figure~\ref{fig:metrics} shows when the metric under interest begins and ends. and their corresponding fixes to be able of measure the time between them. (Example)
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{metrics.png}
+\caption{ Span period of the metrics: Experience Until Bug (EUB),  Time To Notify (TTN), Time To Fix (TTF), Bug Fixing Time (BFT) }
+\label{fig:metrics}       % Give a unique label
+\end{figure}
+
+Besides this metrics, we calculate two more metrics related with the Time To Notify a bug which will be used to compare our results with the ones getting after using the SZZ algorithm. Until now, all the values have been calculated using the exactly location of the bug introducing change, but the SZZ algorithm does not locate the precise commit in which the bug was inserted, and also its outcome could be a a set of commits among which the interest commit may or may not be.
+
+To compare how the TTN obtained through SZZ algorithm differ to ours, we describe this two times:
+\begin{itemize}
+	\item \emph{Time To Notify Optimistic} (TTN\_o): It assumes that the bug introducing change was the nearest commit to the bug report date, thus it measures the time has past since such commit was done until the wrong behavior was reported.
+	\item \emph{Time To Notify Pessimistic} (TTN\_p): It assumes that the furthest commit was the bug introducing change, thus it measures the worst time possible until notify the bug.
+\end{itemize}
 
 \section{Evaluation}
 \label{sec:evaluation}
-We have validated our methodology analyzing the tickets from two different projects written in different programming languages. Nova uses a dynamic language whereas ElasticSearch uses a statically language. Thus, we may study the dependency of the results with the programming language that the project is using.
+We have validated our methodology analyzing the tickets from two different projects written in different programming languages. Nova uses a dynamic language whereas ElasticSearch uses a statically language. Thus, we may study the dependency of the Time To Notify with the programming language that the project is using.
 
-In one hand, Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors \footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its history is saved and available in a version control system\footnote{\url{https://wiki.openstack.org/wiki/Getting_The_Code}}, as well as its issue tracking system (Launchpad\footnote{\url{https://launchpad.net/openstack}}) and the source code review system (Gerrit\footnote{\url{https://review.openstack.org/}}). 
+In one hand, Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors \footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available at GitHub\footnote{\url{https://github.com/openstack/nova}} and it works with Git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system  and  Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
 
-On the contrary, ElasticSearch is a distributed open source search and analytics engine written in Java. In spite of it has less number of commits and contributors than OpenStack, 26,000 commit and 764 contributors, its policy of label an issue as bug report is very strict, thus we could be sure that the tickets analyzed are real bug reports. Furthermore, all its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}}, as well as its issue list is available on GitHub\footnote{\url{https://github.com/elastic/elasticsearch/issues}}
+On the contrary, ElasticSearch is a distributed open source search and analytics engine written in Java. In spite of it has less number of commits and contributors than OpenStack, 26,000 commit and 764 contributors, its policy of label an issue as bug report is very strict, thus we could be sure that the tickets analyzed are real bug reports. Furthermore, all its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it  has been used such as issue tracking system and pull request system in this project.
 
-
-For these two projects we analyzed the tickets looking for their trueBIC, trying to determinate if the previous commit to the fix of the ticket is a BIC. The first stage was only used in Nova due to Launchpad does not distinguish bug reports from other issues as ElasticSearch does it with its strong policy of bug label in GitHub. Thus, two different researchers, were involved in this stage, resulting that each ticket was analyzed by both researchers independently. The second stage was done manually by the first author discussing some difficult situations with two of the authors.
+In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EUB, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
 \section{Results}
 \label{sec:results}
