@@ -605,14 +605,29 @@ ElasticSearch & 312 & 171 & 375 & 14\\
 \section{Threats to validity}
 \label{sec:threats}
 
-- Small data.
-- OpenSatck is continuously evolving 
+The limited sample size of tickets used in this research is the major threat to its validity. It is relatively high considering that the analysis was done manually and in detail to reach reliables results, but there is a long way to get a representative sample from a variety of free/open source systems, or software projects at large. Our analysis requires a lot of human effort, so increasing meaningfully the number of tickets is difficult. However, it should be noted that our numbers are the order of magnitude of similar studies: for instance Hindle's \emph{et al.} ~\cite{hindle2008large} article on large commits, considered 100 commits.
 
+Other internal threats to validity are:
+\begin{itemize}
+    \item We are only using part of the information that the tickets provide, like comments and text. There could be some patterns that can be found in other parts of the information, but we think that this information is enough to determine where the bug introducing change is, due to the comments of the developers in the ticket give several information about what is failing in the code.
+    \item In some cases, when only new code was added by the bug fixing commit, researchers may have some problems to compare their TTN with the SZZ because of SZZ does not considered the new additions in the fixing commits. 
+    \item The experience of the developer calculated from its first commit in the system may not be the best definition to indicate the experience of the author due to a old contributor could have less commit and as a consequence less experience in the project that a new active contributor who is commiting all time.
+\end{itemize}
 
+The most important external threats, most of them related to peculiarities of the Nova project, are:
+\begin{itemize}
+    \item OpenStack is a special project with a very rapid evolution, and a very active community of developer and ElasticSearch is relatively new project with a strong criteria in the bug fix activity. Maybe, in other projects with less commits per year, results may be totally different.
+    \item The programing languages analyzed at this research are Python and Java Script: It may happen that other programming languages present different results
+\end{itemize}
 
 \section{Conclusion}
 \label{sec:conclusions}
 
+The studied we have performed in Nova and ElasticSearch has shown that the mean time to notify a bug in the system is higher than 10 months when the location of the bug introducing change is known. Whereas using SZZ to calculate this metric, the optimistic value is more than 5 months and the pessimistic value is more than 12 months. 
+
+Our study also shows a weak negative correlation between the TTN and the EUB in Nova, which may indicates that a higher time to notify a fewer experience of the author. 
+
+Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
 
 \section*{Acknowledgment}
 
