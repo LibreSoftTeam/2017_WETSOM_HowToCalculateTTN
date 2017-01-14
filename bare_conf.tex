@@ -612,7 +612,6 @@ The Figure~\ref{fig:graph} shows the correlation distribution that each variable
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
-
 On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EUB against TTF does not indicate such small tendency.
 \begin{figure}[ht]
 \centering
@@ -621,14 +620,33 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 \label{fig:graph1}       % Give a unique label
 \end{figure}
  
+\gema{I also have results about the author of the bug is the same that reported it or the same that fixed it or maybe both, but I'm not sure how to present them. Does it work in percentage? or maybe is it better in a bar diagram? }
 \section{Discussion}
 \label{sec:discussion}
-- Possibles explanations for the TTN according to the results and have into account the other metrics
 
+After analyzing several fixing commit in this study, we have realized that the real time to notify a bug differs to the one computed using algorithm such as SZZ. Furthermore, many variables could have some impact determining the time to notify which we does not have into account.
+
+The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova, adding to this values the mean time to fix a bug in each project, it arise that bug fixing time in ElasticSearch does not ahve any variation whereas it is increased reaching to almost 400 days. Comparing our BTF with the one presented at ~\cite{kim2006long} where it varies from 100 to 200 days, we can notice that the BFT in ElasticSearch is on the range but not the Nova. 
+
+\vspace{0.2cm}
+\fbox{\begin{minipage}{24em}
+\textbf{RQ1: The mean time to Notify (TTN) a bug in ElasticSearch is 312 days while the TTN presents at Nova is 431 days } 
+\end{minipage}}
+\vspace{0.1cm}
+
+One of our findings is the weak negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EUB is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code has few experience in the project.
+
+\vspace{0.2cm}
+\fbox{\begin{minipage}{24em}
+\textbf{ RQ2: The experience of the author who inserted the bug in the source code and the time to notify such bug have a weak correlation in Nova project  } 
+\end{minipage}}
+\vspace{0.1cm}
+
+- Authors fixing/notifies theirs bugs --> possible explanations
+- 
 
 \section{Threats to validity}
 \label{sec:threats}
-
 The limited sample size of tickets used in this research is the major threat to its validity. It is relatively high considering that the analysis was done manually and in detail to reach reliable results, but there is a long way to get a representative sample from a variety of free/open source systems, or software projects at large. Our analysis requires a lot of human effort, so increasing meaningfully the number of tickets is difficult. However, it should be noted that our numbers are the order of magnitude of similar studies: for instance Hindle's \emph{et al.} ~\cite{hindle2008large} article on large commits, considered 100 commits.
 
 Other internal threats to validity are:
