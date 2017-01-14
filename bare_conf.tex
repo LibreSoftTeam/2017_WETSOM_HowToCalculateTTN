@@ -464,7 +464,7 @@ Summing up, we are interested in studying the real value of TTN to answer follow
 \item RQ2: Is there any correlation of TTN with others measures in the bug fixing process?
 \end{itemize}
 
-Our main findings reveal that the \emph{real} mean TTN ranges from ten months in ElasticSearch to fourteen months in Nova. If we assume the optimistic cases the mean in Nova is eight months and in ElasticSearch five months. On the contrary, if we assume the pessimistic cases, the mean in Nova is thirteen months and twelve months in ElastichSearch \grex{What is optimistic and what pessimistic? I assume these are measures done with SZZ, don't they?} \gema{Yes, both are measures done with SZZ, SZZ give us a branch of commits that could be the cause of the bug, so pessimistic refers from those commits the oldest one and the optimistic referst to the newest one}. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug.
+Our main findings reveal that the \emph{real} mean TTN ranges from ten months in ElasticSearch to fourteen months in Nova. If we compare our results with the ones obtained with applying the SZZ algorithm, in the optimistic approach (i.e., considering the newest ones) the mean TTN in Nova is eight months and in ElasticSearch five months and in the pessimistic one (i.e., considering the oldest ones) the mean in Nova is thirteen months and twelve months in ElasticSearch. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug.
 
 The remainder of the paper is organized as follows: In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculates the metrics, followed by the results obtained from Nova and ElasticSearch in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements to our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out potential future work in Section~\ref{sec:conclusions}.
 
@@ -526,7 +526,7 @@ Next, we describe the metrics. Notice that the value of all these metrics has be
 		\item \emph{Bug Fixing Time} (BFT): It measures the time from the date of the BIC and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
 \end{itemize} 
 
-The Figure~\ref{fig:metrics} shows when the metric under interest begins and ends. and their corresponding fixes to be able of measure the time between them. (Example)
+Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}
 
 \begin{figure}[ht]
 \centering
@@ -535,28 +535,33 @@ The Figure~\ref{fig:metrics} shows when the metric under interest begins and end
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
-Besides this metrics, we calculate two more metrics related with the Time To Notify a bug which will be used to compare our results with the ones getting after using the SZZ algorithm. Until now, all the values have been calculated using the exactly location of the bug introducing change, but the SZZ algorithm does not locate the precise commit in which the bug was inserted, and also its outcome could be a a set of commits among which the interest commit may or may not be.
+Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may not be.
 
-To compare how the TTN obtained through SZZ algorithm differ to ours, we describe this two times:
+To compare how the TTN obtained through SZZ algorithm differs with ours, we describe these two times:
 \begin{itemize}
-	\item \emph{Time To Notify Optimistic} (TTN\_o): It assumes that the bug introducing change was the nearest commit to the bug report date, thus it measures the time has past since such commit was done until the wrong behavior was reported.
-	\item \emph{Time To Notify Pessimistic} (TTN\_p): It assumes that the furthest commit was the bug introducing change, thus it measures the worst time possible until notify the bug.
+	\item \emph{Optimistic Time To Notify Optimistic} (oTTN): It assumes that the BIC is the closest commit in time to the bug report date, thus it measures the time since such commit until wrong behavior was reported.
+	\item \emph{Pessimistic Time To Notify Pessimistic} (pTTN): It assumes that the BIC is furthest commit in time, thus it measures the worst time possible until the bug was notified.
 \end{itemize}
+
+\grex{oTTN and pTTN is still not clear... we would probably need an example like the one in Figure~\ref{fig:metrics}}
 
 \section{Evaluation}
 \label{sec:evaluation}
-We have validated our methodology analyzing the tickets from two different projects written in different programming languages. Nova uses a dynamic language whereas ElasticSearch uses a statically language. Thus, we may study the dependency of the Time To Notify with the programming language that the project is using.
 
-In one hand, Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors \footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available at GitHub\footnote{\url{https://github.com/openstack/nova}} and it works with Git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system  and  Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
+We have validated our methodology analyzing tickets from two different projects written in different programming languages. Nova uses a dynamic language, whereas ElasticSearch uses a static language. Thus, we may study the dependency of the TTN with the programming language that the project is using.
 
-On the contrary, ElasticSearch is a distributed open source search and analytics engine written in Java. In spite of it has less number of commits and contributors than OpenStack, 26,000 commit and 764 contributors, its policy of label an issue as bug report is very strict, thus we could be sure that the tickets analyzed are real bug reports. Furthermore, all its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it  has been used such as issue tracking system and pull request system in this project.
+Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors \footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available at GitHub\footnote{\url{https://github.com/openstack/nova}} and it works with git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system and Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
+
+ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has a lower number of commits and contributors than OpenStack --26,000 commit and 764 contributors. Its policy of labeling an issue as bug report is very strict, thus we could be sure that the tickets analyzed are \emph{real} bug reports. All its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it has been used such as issue tracking system and pull request system in this project.
 
 In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
+
+\grex{We should have a replication package with data and scripts}
 
 \section{Results}
 \label{sec:results}
 
-We have analyzed exactly the values of the time to notify, the experience of the author until inserted the bug, and the time to fix in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch.  In addition, we have presented such values with the optimistic and pessimistic values of the time to notify when the SZZ algorithm was used in the analysis.
+We have analyzed exactly the values of the time to notify, the experience of the author until inserted the bug, and the time to fix in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we have presented such values with the optimistic and pessimistic values of the time to notify when the SZZ algorithm was used in the analysis.
 
 The Table~\ref{table} shows the mean of the Time To Fix value and the Time To Notify values computed in each project using the exactly bug introducing change or, on the contrary, using the best and worst suspicious commit to insert the bug by SZZ.  
 \begin{table}[!t]
@@ -612,7 +617,7 @@ The Figure~\ref{fig:graph} shows the correlation distribution that each variable
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionNova_b.png}
-\caption{ Relationship of the metrics each other in Nova project}
+\caption{ Relationship of the metrics each other in Nova project. \grex{We should make these figures bigger}}
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
@@ -621,13 +626,14 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
-\caption{Relationship of the metrics each other in ES project}
+\caption{Relationship of the metrics each other in ES project. \grex{We should make these figures bigger}}
 \label{fig:graph1}       % Give a unique label
 \end{figure}
  
 \section{Discussion}
 \label{sec:discussion}
-- Possibles explanations for the TTN according to the results and have into account the other metrics
+
+- Possible explanations for the TTN according to the results and have into account the other metrics
 
 
 \section{Threats to validity}
@@ -636,6 +642,7 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 The limited sample size of tickets used in this research is the major threat to its validity. It is relatively high considering that the analysis was done manually and in detail to reach reliable results, but there is a long way to get a representative sample from a variety of free/open source systems, or software projects at large. Our analysis requires a lot of human effort, so increasing meaningfully the number of tickets is difficult. However, it should be noted that our numbers are the order of magnitude of similar studies: for instance Hindle's \emph{et al.} ~\cite{hindle2008large} article on large commits, considered 100 commits.
 
 Other internal threats to validity are:
+
 \begin{itemize}
     \item We are only using part of the information that the tickets provide, like comments and text. There could be some patterns that can be found in other parts of the information, but we think that this information is enough to determine where the bug introducing change is, due to the comments of the developers in the ticket give several information about what is failing in the code.
     \item In some cases, when only new code was added by the bug fixing commit, researchers may have some problems to compare their TTN with the SZZ because of SZZ does not considered the new additions in the fixing commits. 
@@ -643,12 +650,13 @@ Other internal threats to validity are:
 \end{itemize}
 
 The most important external threats, most of them related to peculiarities of the Nova project, are:
+
 \begin{itemize}
     \item OpenStack is a special project with a very rapid evolution, and a very active community of developer and ElasticSearch is relatively new project with a strong criteria in the bug fix activity. Maybe, in other projects with less commits per year, results may be totally different.
     \item The programming languages analyzed at this research are Python and Java Script: It may happen that other programming languages present different results
 \end{itemize}
 
-\section{Conclusion}
+\section{Conclusion and further research}
 \label{sec:conclusions}
 
 The studied we have performed in Nova and ElasticSearch has shown that the mean time to notify a bug in the system is higher than 10 months when the location of the bug introducing change is known. Whereas using SZZ to calculate this metric, the optimistic value is more than 5 months and the pessimistic value is more than 12 months. 
