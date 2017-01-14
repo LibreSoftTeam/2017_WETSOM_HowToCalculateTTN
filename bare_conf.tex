@@ -478,7 +478,7 @@ I must talk about these prior studies:
  
 Studying the Fix-Time for Bugs in Large Open Source Projects ~\cite{marks2011studying} --> They studied the dependence of  the fix-time for bugs with their attributes in a large open source projects where the results indicated that the priority of the bug in Eclipse was correlated with the time to fix
 
-How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs,e.g.Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)
+How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs, e.g., Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)
 
 Bug-fix Time Prediction Models: Can We Do Better? ~\cite{bhattacharya2011bug} 
 
@@ -520,10 +520,10 @@ To compute all the metrics used in this study, we need to identify the BIC. Once
 Next, we describe the metrics. Notice that the value of all these metrics has been calculated in days: 
 
 \begin{itemize}
-		\item \emph{Experience Until the Bug} (EUB): The time of experience that presents the author of the bug introducing change at the moment of submit such commit to the repository. The experience is measured from the first time that the author committed some code to the project until (s)he introduced the commit with the buggy line.
+		\item \emph{Experience Until Bug Introducing Change} (EuBIC): The time of experience that presents the author of the BIC at the moment of doing the commit. The experience is measured from the first time that the author committed some code to the project until (s)he introduced the commit with the buggy line.
 		\item \emph{Time To Notify} (TTN): This value measures the time since the commit inserted the bug was merged into he master branch until some developer notified the unexpected behavior and reported it. 
-		\item \emph{Time To Fix} (TTF): It refers to the necessary time to fix a bug. This value is the period from a bug report was opened until it was closed by a fixing commit.
-		\item \emph{Bug Fixing Time} (BFT): It measures the time from the Bug Inserting change date and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
+		\item \emph{Time To Fix} (TTF): It refers to period from the notification of a bug report to when it was closed with a fixing commit.
+		\item \emph{Bug Fixing Time} (BFT): It measures the time from the date of the BIC and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
 \end{itemize} 
 
 The Figure~\ref{fig:metrics} shows when the metric under interest begins and ends. and their corresponding fixes to be able of measure the time between them. (Example)
@@ -531,7 +531,7 @@ The Figure~\ref{fig:metrics} shows when the metric under interest begins and end
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{metrics.png}
-\caption{ Span period of the metrics: Experience Until Bug (EUB),  Time To Notify (TTN), Time To Fix (TTF), Bug Fixing Time (BFT) }
+\caption{ Span period of the metrics: Experience Until Bug Introducing Change (EuBIC),  Time To Notify (TTN), Time To Fix (TTF), Bug Fixing Time (BFT) }
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
@@ -551,7 +551,7 @@ In one hand, Nova belongs to OpenStack project which is a cloud computing platfo
 
 On the contrary, ElasticSearch is a distributed open source search and analytics engine written in Java. In spite of it has less number of commits and contributors than OpenStack, 26,000 commit and 764 contributors, its policy of label an issue as bug report is very strict, thus we could be sure that the tickets analyzed are real bug reports. Furthermore, all its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it  has been used such as issue tracking system and pull request system in this project.
 
-In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EUB, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
+In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
 \section{Results}
 \label{sec:results}
@@ -578,30 +578,24 @@ ElasticSearch & 312 & 171 & 375 & 14\\
 \end{tabular}
 \end{table}
 
-The Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as well as the TTF and the EUB in both projects using box plots. For example, to notify 50\% of the bugs requires approximately 100 to 600 days in both projects. Whereas the median is 300 days in Nova and almost 200 days in ElasticSearch.  
+The Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as well as the TTF and the EuBIC in both projects using box plots. For example, to notify 50\% of the bugs requires approximately 100 to 600 days in both projects. Whereas the median is 300 days in Nova and almost 200 days in ElasticSearch.  
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotNova.png}
-<<<<<<< HEAD
-\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EUB (25\% to 75\% quartile) in Nova project. The middle line in boxes indicates the median value}
+\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EuBIC (25\% to 75\% quartile) in Nova project. The middle line in boxes indicates the median value}
 \label{fig:meansOfNova}       % Give a unique label
-=======
-\caption{Box-Plot in Nova}
-\label{fig:graph4}       % Give a unique label
->>>>>>> 2c71d801f85fe5d6a75793ce2c15c0f9f3bc2eee
+%\caption{Box-Plot in Nova}
+%\label{fig:graph4}       % Give a unique label
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotES.png}
-<<<<<<< HEAD
-\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EUB (25\% to 75\% quartile) in ElasticSearch project. The middle line in boxes indicates the median value}
+\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EuBIC (25\% to 75\% quartile) in ElasticSearch project. The middle line in boxes indicates the median value}
 \label{fig:meansOfES}       % Give a unique label
-=======
-\caption{Box-Plot in ES}
-\label{fig:graph5}       % Give a unique label
->>>>>>> 2c71d801f85fe5d6a75793ce2c15c0f9f3bc2eee
+%\caption{Box-Plot in ES}
+%\label{fig:graph5}       % Give a unique label
 \end{figure}
 
 The Figure~\ref{fig:correlation} shows the correlation between each of the metrics analyzed in this study in the Nova project. It shows a strong positive correlation between the TTN, TTN\_o and TTN\_p, also it shows a weak negative correlation between the experience of the author introducing the bug and the time to notify. The ElasticSearch project only showed the strong positive correlation between the TTN variables, and we decided not display the graph.
@@ -625,7 +619,6 @@ The Figure~\ref{fig:correlation} shows the correlation between each of the metri
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
 \caption{Distribution of the metrics in Nova project}
-\label{fig:graph3}       % Give a unique label
 \end{figure}
 
 
@@ -657,7 +650,7 @@ The most important external threats, most of them related to peculiarities of th
 
 The studied we have performed in Nova and ElasticSearch has shown that the mean time to notify a bug in the system is higher than 10 months when the location of the bug introducing change is known. Whereas using SZZ to calculate this metric, the optimistic value is more than 5 months and the pessimistic value is more than 12 months. 
 
-Our study also shows a weak negative correlation between the TTN and the EUB in Nova, which may indicates that a higher time to notify a fewer experience of the author. 
+Our study also shows a weak negative correlation between the TTN and the EuBIC in Nova, which may indicates that a higher time to notify a fewer experience of the author. 
 
 Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
 
