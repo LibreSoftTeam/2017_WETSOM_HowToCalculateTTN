@@ -582,25 +582,15 @@ The Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotNova.png}
-<<<<<<< HEAD
 \caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EUB (25\% to 75\% quartile) in Nova project. The middle line in boxes indicates the median value}
 \label{fig:meansOfNova}       % Give a unique label
-=======
-\caption{Box-Plot in Nova}
-\label{fig:graph4}       % Give a unique label
->>>>>>> 2c71d801f85fe5d6a75793ce2c15c0f9f3bc2eee
 \end{figure}
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotES.png}
-<<<<<<< HEAD
 \caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EUB (25\% to 75\% quartile) in ElasticSearch project. The middle line in boxes indicates the median value}
 \label{fig:meansOfES}       % Give a unique label
-=======
-\caption{Box-Plot in ES}
-\label{fig:graph5}       % Give a unique label
->>>>>>> 2c71d801f85fe5d6a75793ce2c15c0f9f3bc2eee
 \end{figure}
 
 The Figure~\ref{fig:correlation} shows the correlation between each of the metrics analyzed in this study in the Nova project. It shows a strong positive correlation between the TTN, TTN\_o and TTN\_p, also it shows a weak negative correlation between the experience of the author introducing the bug and the time to notify. The ElasticSearch project only showed the strong positive correlation between the TTN variables, and we decided not display the graph.
@@ -612,21 +602,22 @@ The Figure~\ref{fig:correlation} shows the correlation between each of the metri
 \label{fig:correlation}       % Give a unique label
 \end{figure}
 
-- Describe these plots
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\columnwidth]{DistributionNova_b.png}
-\caption{Distribution of the metrics in Nova project}
-\label{fig:graph2}       % Give a unique label
-\end{figure}
+The Figure~\ref{fig:graph} shows the correlation distribution that each variable has with the others in Nova project. While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EUB against TTF does not indicate such small tendency.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
-\caption{Distribution of the metrics in Nova project}
-\label{fig:graph3}       % Give a unique label
+\caption{Relationship of the metrics each other in ES project}
+\label{fig:graph}       % Give a unique label
 \end{figure}
-
+ 
+On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EUB against TTF does not indicate such small tendency.
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{DistributionNova_b.png}
+\caption{ Relationship of the metrics each other in Nova project}
+\label{fig:graph1}       % Give a unique label
+\end{figure}
 
 \section{Discussion}
 \label{sec:discussion}
