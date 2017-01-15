@@ -526,8 +526,7 @@ Next, we describe the metrics. Notice that the value of all these metrics has be
 		\item \emph{Bug Fixing Time} (BFT): It measures the time from the date of the BIC and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
 \end{itemize} 
 
-Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}
-
+Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}. As example, after analyzing the bug report \#13334 we obtain that the fix commit id is $c6da8d5e1$ and the BIC is $c73fff7$. Thus, extracting all the metadata of theses commit we obtain the dates and the author of each commit where the bug report was done on 4 Sep 2015, the fixing commit was done on 8 Sep 2015 and the BIC was inserted on 13 Jul 2015 by a developer with almost 3 years of experience in the project. Hence, at this example the values of the metrics under study are:  TTN is 53 days, the TTF is 4 days the EuBIC is 1217 days and the BFT is 57 days.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{metrics.png}
@@ -662,8 +661,8 @@ One of our findings is the weak negative correlation that Nova presents between 
 \end{minipage}}
 \vspace{0.1cm}
 
-- Authors fixing/notifies theirs bugs --> possible explanations
-- 
+- Does the authors fix/notify theirs bugs? Speak about the possible reasons (are they still actives in the project? does they have more knowledge about the bug because they wrote the lines?, Have the TTN some relation with the fact that the authors fixed/notified their own bugs?) ) \\
+- Also speak that Nova has more developers so normally they not 
 
 \section{Threats to validity}
 \label{sec:threats}
