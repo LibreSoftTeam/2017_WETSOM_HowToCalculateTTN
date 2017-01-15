@@ -535,7 +535,7 @@ Figure~\ref{fig:metrics} provides a visual explanation of the various metrics pr
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
-Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may not be.
+Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. 
 
 To compare how the TTN obtained through SZZ algorithm differs with ours, we describe these two times:
 \begin{itemize}
@@ -544,6 +544,16 @@ To compare how the TTN obtained through SZZ algorithm differs with ours, we desc
 \end{itemize}
 
 \grex{oTTN and pTTN is still not clear... we would probably need an example like the one in Figure~\ref{fig:metrics}}
+\gema{is it better now?}
+
+The Figure~\ref{fig:SZZmetrics} shows how oTTN and pTTN are calculated, from the set of previous commits we build the \emph{Range of BIC} (RBIC) where the \emph{real} BIC may be. This range includes the time from the oldest to the newest merged commit in the master branch among the set of commits resulting from SZZ.
+  
+\begin{figure}[ht]
+\centering
+\includegraphics[width=\columnwidth]{SZZmetrics.png}
+\caption{ Span period of the metrics: Range of BIC (RBIC),  Pessimistic Time To Notify (pTTN), Optimistic Time To Notify (oTTN),Time To Fix (TTF) }
+\label{fig:SZZmetrics}       % Give a unique label
+\end{figure}
 
 \section{Evaluation}
 \label{sec:evaluation}
@@ -617,7 +627,8 @@ The Figure~\ref{fig:graph} shows the correlation distribution that each variable
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionNova_b.png}
-\caption{ Relationship of the metrics each other in Nova project. \grex{We should make these figures bigger}}
+\caption{ Relationship of the metrics each other in Nova project. \grex{We should make these figures bigger}
+\gema{as bigger as The Figure~\ref{fig:meansOfNova}?? }}
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
