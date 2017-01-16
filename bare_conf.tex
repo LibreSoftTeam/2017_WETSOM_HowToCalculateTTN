@@ -493,7 +493,7 @@ Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time} (BFT),
 \section{Methodology}
 \label{sec:methodology}
 
-In our study the data analyzed was obtained from the source code management, the issue tracking system and the code review system. We will illustrate our methodology in Figure~\ref{fig:methodology} where the income is a set of bug reports extracted randomly from the issue tracking system. The steps of our process are given by white boxes; the colored boxes give the sources that are used to obtain the information required in each step.
+In our study the data analyzed was obtained from the source code management, the issue tracking system and the code review system. We will illustrate our methodology in Figure~\ref{fig:methodology} where the income is a set of bug reports extracted randomly from the issue tracking system. The steps of our process are given by white boxes; the  boxes give the sources that are used to obtain the information required in each step.
 
 \begin{figure}[ht]
 \centering
@@ -526,7 +526,7 @@ Next, we describe the metrics. Notice that the value of all these metrics has be
 		\item \emph{Bug Fixing Time} (BFT): It measures the time from the date of the BIC and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
 \end{itemize} 
 
-Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}. As example, after analyzing the bug report \#13334 we obtain that the fix commit id is $c6da8d5e1$ and the BIC is $c73fff7$. Thus, extracting all the metadata of theses commit we obtain the dates and the author of each commit where the bug report was done on 4 Sep 2015, the fixing commit was done on 8 Sep 2015 and the BIC was inserted on 13 Jul 2015 by a developer with almost 3 years of experience in the project. Hence, at this example the values of the metrics under study are:  TTN is 53 days, the TTF is 4 days the EuBIC is 1217 days and the BFT is 57 days.
+Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}. As example, after analyzing the bug report \#13334 we obtain that the fix commit id is $c6da8d5e1$ and the BIC is $c73fff7$. Thus, extracting all the meta-data of theses commits we obtain the date and the author of each commit where the bug report was done on 4th September 2015, the fixing commit was done on 15th September 2015 and the BIC was inserted on 13th July 2015 by a developer with almost 3 years of experience in the project. Hence, at this example the values of the metrics under study are:  TTN is 54 days, the TTF is 11 days the EuBIC is 1097 days and the BFT is 65 days.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{metrics.png}
@@ -578,7 +578,7 @@ The Table~\ref{table} shows the mean of the Time To Fix value and the Time To No
 \renewcommand{\arraystretch}{1.3}
 \label{table}
 \centering
-\caption{Mean in days of the TTN, TTN\_o, TTN\_p and TTF in each project}
+\caption{Mean in days of the TTN, oTTN, pTTN and TTF in each project}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c||c||c||c| }
@@ -597,7 +597,7 @@ The Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotNova.png}
-\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EuBIC (25\% to 75\% quartile) in Nova project. The middle line in boxes indicates the median value}
+\caption{The boxes indicate 50\% of TTN, oTTN, pTTN, TTF and EuBIC (25\% to 75\% quartile) in Nova project. The middle line in boxes indicates the median value}
 \label{fig:meansOfNova}       % Give a unique label
 %\caption{Box-Plot in Nova}
 %\label{fig:graph4}       % Give a unique label
@@ -606,13 +606,13 @@ The Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotES.png}
-\caption{The boxes indicate 50\% of TTN, TTN\_o, TTN\_p, TTF and EuBIC (25\% to 75\% quartile) in ElasticSearch project. The middle line in boxes indicates the median value}
+\caption{The boxes indicate 50\% of TTN, oTTN, pTTN, TTF and EuBIC (25\% to 75\% quartile) in ElasticSearch project. The middle line in boxes indicates the median value}
 \label{fig:meansOfES}       % Give a unique label
 %\caption{Box-Plot in ES}
 %\label{fig:graph5}       % Give a unique label
 \end{figure}
 
-The Figure~\ref{fig:correlation} shows the correlation between each of the metrics analyzed in this study in the Nova project. It shows a strong positive correlation between the TTN, TTN\_o and TTN\_p, also it shows a weak negative correlation between the experience of the author introducing the bug and the time to notify. The ElasticSearch project only showed the strong positive correlation between the TTN variables, and we decided not display the graph.
+The Figure~\ref{fig:correlation} shows the correlation between each of the metrics analyzed in this study in the Nova project. It shows a strong positive correlation between the TTN, oTTN and pTTN, also it shows a weak negative correlation between the experience of the author introducing the bug and the time to notify. The ElasticSearch project only showed the strong positive correlation between the TTN variables, and we decided not display the graph.
 
 \begin{figure}[ht]
 \centering
@@ -640,6 +640,44 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 \end{figure}
  
 \gema{I also have results about the author of the bug is the same that reported it or the same that fixed it or maybe both, but I'm not sure how to present them. Does it work in percentage? or maybe is it better in a bar diagram? }
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.3}
+\label{tableII}
+\centering
+\caption{Percentage of same people introducing, notifying and fixing the bugs in ElasticSearch project}
+% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+\begin{tabular}{|c||c||c||c||c| }
+\hline
+  & Notify-Fix & Introduce-Notify-Fix & Introduce-Notify & Introduce-Fix \\
+\hline
+Yes & 16 (43\%) & 10 (27\%) & 11 (30\%) & 16 (43\%) \\
+\hline
+No & 21 (57\%) & 27 (73\%) & 26 (70\%) & 21 (57\%) \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.3}
+\label{tableIII}
+\centering
+\caption{Percentage of same people introducing, notifying and fixing the bugs in Nova project}
+% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+\begin{tabular}{|c||c||c||c||c| }
+\hline
+  & Notify-Fix & Introduce-Notify-Fix & Introduce-Notify & Introduce-Fix \\
+\hline
+Yes & 30 (77\%) & 5 (13\%) & 5 (13\%) & 7 (18\%) \\
+\hline
+No & 9 (23\%) & 34 (87\%) & 34 (87\%) & 32 (82\%) \\
+\hline
+\end{tabular}
+\end{table}
 \section{Discussion}
 \label{sec:discussion}
 
