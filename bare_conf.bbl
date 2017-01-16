@@ -24,6 +24,19 @@ D.~M. German.
 \newblock {\em Journal of Software Maintenance and Evolution: Research and
   Practice}, 16(6):367--384, 2004.
 
+\bibitem{giger2010predicting}
+E.~Giger, M.~Pinzger, and H.~Gall.
+\newblock Predicting the fix time of bugs.
+\newblock In {\em Proceedings of the 2nd International Workshop on
+  Recommendation Systems for Software Engineering}, pages 52--56. ACM, 2010.
+
+\bibitem{guo2010characterizing}
+P.~J. Guo, T.~Zimmermann, N.~Nagappan, and B.~Murphy.
+\newblock Characterizing and predicting which bugs get fixed: an empirical
+  study of microsoft windows.
+\newblock In {\em 2010 ACM/IEEE 32nd International Conference on Software
+  Engineering}, volume~1, pages 495--504. IEEE, 2010.
+
 \bibitem{hindle2008large}
 A.~Hindle, D.~M. German, and R.~Holt.
 \newblock What do large commits tell us?: a taxonomical study of large commits.
@@ -73,5 +86,18 @@ G.~Tassey.
   testing.
 \newblock {\em National Institute of Standards and Technology, RTI Project},
   7007(011), 2002.
+
+\bibitem{zhang2012empirical}
+F.~Zhang, F.~Khomh, Y.~Zou, and A.~E. Hassan.
+\newblock An empirical study on factors impacting bug fixing time.
+\newblock In {\em 2012 19th Working Conference on Reverse Engineering}, pages
+  225--234. IEEE, 2012.
+
+\bibitem{zhang2013predicting}
+H.~Zhang, L.~Gong, and S.~Versteeg.
+\newblock Predicting bug-fixing time: an empirical study of commercial software
+  projects.
+\newblock In {\em Proceedings of the 2013 International Conference on Software
+  Engineering}, pages 1042--1051. IEEE Press, 2013.
 
 \end{thebibliography}

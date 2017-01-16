@@ -471,24 +471,22 @@ The remainder of the paper is organized as follows: In Section~\ref{sec:relatedw
 \section{Related Work}
 \label{sec:relatedwork}
 
-To measure experience exists several ways: (1) Number of Commits~\cite{eyolfson2011time}, (2) Fixing activity~\cite{ahsan2010mining} and (3) Ownership~\cite{german2004using}
 
-I must talk about these prior studies:
- Metrics for Gerrit code reviews~\cite{lehtonen2015metrics} --> Monitoring the code review process is not as easy as was we could think in spite of tools as Gerrit, they introduced the Review time, integration time, average number of patch-sets (Maybe discard it)???
- 
-Studying the Fix-Time for Bugs in Large Open Source Projects ~\cite{marks2011studying} --> They studied the dependence of  the fix-time for bugs with their attributes in a large open source projects where the results indicated that the priority of the bug in Eclipse was correlated with the time to fix
+Kim and Whitehead calculated the time to fix bugs \emph{bug-fix time} in ArgoUML and PostgreSQL projects reporting that the median time for fixing a single bug is about 200 days. Also, they arguing that this time is a significant factor to measure the quality of a software system~\cite{kim2006long}. Furthermore, Guo \emph{et al.} studied two Microsoft products, looking for the attributes that had influence in the fixing commit, they found that bugs reported by developers with higher reputation were more likely to get fixed, and they were fixed faster~\cite{guo2010characterizing}.
 
-How long did it take to fix bugs?~\cite{kim2006long} --> They have calculated this time but the name was bug-fix time ( It requires much effort to fix bugs, e.g., Kim and Whitehead [14] report that the median time for fixing a single bug is about 200 days.)(studied  the  life  span  of  bugs  in  ArgoUML  and  PostgreSQL projects, and found that bug-fixing time had a median of about 200 days)
+Lionel \emph{et al.} also studied the Fix-Time for Bugs in Large Open Source Projects and their results indicated that the priority of the bug in Eclipse was correlated with the time to fix~\cite{marks2011studying}. On the contrary, Bhattacharya \emph{et al.} used regression testing to measure the correlation between bug-fix time with some of the bug report attributes such as number of attachments or bug severity, finding that their results did not present such correlation~\cite{bhattacharya2011bug}.
 
-Bug-fix Time Prediction Models: Can We Do Better? ~\cite{bhattacharya2011bug} 
+%Lehtonen \emph{et al.} studied the review process in Gerrit and introduced some metrics such as the review time, integration time or average number of patch-sets explaining that monitoring the code review process is not as easy as was we could think~\cite{lehtonen2015metrics}.
 
-Do More Experienced Developers Introduce Fewer Bugs? ~\cite{izquierdo2012more} --> they analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results didn't show that correlation. More experience doesn't imply less bug introducing changes. They used the SZZ
+%Authors ~\cite{zhang2012empirical} studied which factors affect in the delayed time incurred by developers from the bug was opened until the fixing activity started. Their explanation to this delay was the: Type, Severity, Operating System, Property of Code or Comments of a Bug~\cite{zhang2012empirical} 
 
-Are developers fixing their own bugs?: Tracing bug-fixing and bug-seeding committers ~\cite{izquierdo2011developers} --> They were looking to understand if these contributors who introduced the bug are the same who fixed it, the results showed that in most cases the bug fixing activity was not carried out by the author or the bug introducing change. assume SZZ theory
+Zhang \emph{et al.} proposed an effective method for predicting the number of bugs that will be fixed in future and the time required and the quickness to fix them in ~\cite{zhang2013predicting}. Furthermore, in this line Ginger \emph{et al.} investigated the relationship between bug report attributes in three open source projects, Eclipse, Mozilla, and Gnome, to build a prediction model. Their findings showed that the reporter, the assignee and the date it was opened were the attributes with strongest influence on the fix-time of the bugs~\cite{giger2010predicting}.
 
-Talk about how different is our study to prior works:
 
-Prior studies~\cite{kim2006long} have proposed the \emph{Bug Fixing Time} (BFT), it's a similar metric to TTN but while the \emph{Bug Fixing Time} is an estimation to calculate the time since bugs were introduced until the bug was fixed, the TTN is a concrete metric to compute the time since bugs were injected until they notified the wrong behaviour of the software, this value doesn't have include the time to fix.
+On the other hand, some authors decided to study how the experience of the author affects in the bug fixing activity. First of all, to measure experience exists several ways: Number of Commits in ~\cite{eyolfson2011time}, Fixing activity in ~\cite{ahsan2010mining} and Ownership in ~\cite{german2004using}. Thus, based on this measures, Izquierdo \emph{et al.} analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results did not show that correlation, meaning that more experience does not imply less bug introducing changes~\cite{izquierdo2012more}. Also, they studied whether contributors who introduced the bug are the same who fixed it, their findings showed that in most cases the bug fixing activity was not carried out by the author or the bug introducing change ~\cite{izquierdo2011developers}.
+
+
+While the prior studies were built under the assumption that the previous modifications to a fixed line were the cause of the bug, the value of our study reside in does not assume it, and research for the \emph{true} modification that injected the bug to can compute some of the metrics that the prior studies have done before. 
 
 \section{Methodology}
 \label{sec:methodology}
