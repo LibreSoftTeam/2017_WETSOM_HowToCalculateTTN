@@ -520,7 +520,7 @@ The following list is a detailed description of the steps:
 		\item Find the fixing commit of each bug report.
 		\item Find the lines that this commit added, modified or deleted to solve the bug.
 		\item Obtain, for each of those lines, the commit that added, modified or deleted these lines previously. The result is the previous commit for each line.
-		\item Analyze which one of the previous commits was the BIC. In the case where none of them was the cause of the bug, track back each previous commit until the line causing the failure can be found in some of the previous commits. In the case of only new lines were added to the fixing commit, we analyzed the nearby commits to those lines looking whether in any of them the developer \emph{forgot} to add these lines.
+		\item Analyze which one of the previous commits was the BIC. In the case where none of them was the cause of the bug, track back each previous commit until the line causing the failure can be found in some of the previous commits. In the case of only new lines were added to the fixing commit, we analyzed the nearby commits to those lines looking whether in any of them the developer \emph{forgot} to add these lines. Notice that SZZ algorithm discards the fixing commits with only new lines.
 		\item Extract the date when the fixing commit, the BIC and the bug report was submitted, as well as the author of each of the commits to calculate our metrics.	
 \end{enumerate} 
 
@@ -546,25 +546,26 @@ Figure~\ref{fig:metrics} provides a visual explanation of the various metrics pr
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
-Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. 
+Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. To compare our results with the ones obtained after using the SZZ algorithm, we select the earliest commit which introduced the bug to the bug-fixing commit as in prior works~\cite{eyolfson2011time}. In addition, we must discard those fixing commits with only new lines since SZZ algorithm removes them from the analysis.
+%Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. 
 
-To compare how the TTN obtained through SZZ algorithm differs with ours, we describe these two times:
-\begin{itemize}
-	\item \emph{Optimistic Time To Notify Optimistic} (oTTN): It assumes that the BIC is the closest commit in time to the bug report date, thus it measures the time since such commit until wrong behavior was reported.
-	\item \emph{Pessimistic Time To Notify Pessimistic} (pTTN): It assumes that the BIC is furthest commit in time, thus it measures the worst time possible until the bug was notified.
-\end{itemize}
+%To compare how the TTN obtained through SZZ algorithm differs with ours, we describe these two times:
+%\begin{itemize}
+%	\item \emph{Optimistic Time To Notify Optimistic} (oTTN): It assumes that the BIC is the closest commit in time to the bug report date, thus it measures the time since such commit until wrong behavior was reported.
+%	\item \emph{Pessimistic Time To Notify Pessimistic} (pTTN): It assumes that the BIC is furthest commit in time, thus it measures the worst time possible until the bug was notified.
+%\end{itemize}
 
-\grex{oTTN and pTTN is still not clear... we would probably need an example like the one in Figure~\ref{fig:metrics}}
-\gema{is it better now?}
+%\grex{oTTN and pTTN is still not clear... we would probably need an example like the one in Figure~\ref{fig:metrics}}
+%\gema{is it better now?}
 
-The Figure~\ref{fig:SZZmetrics} shows how oTTN and pTTN are calculated, from the set of previous commits we build the \emph{Range of BIC} (RBIC) where the \emph{real} BIC may be. This range includes the time from the oldest to the newest merged commit in the master branch among the set of commits resulting from SZZ.
+%The Figure~\ref{fig:SZZmetrics} shows how oTTN and pTTN are calculated, from the set of previous commits we build the \emph{Range of BIC} (RBIC) where the \emph{real} BIC may be. This range includes the time from the oldest to the newest merged commit in the master branch among the set of commits resulting from SZZ.
   
-\begin{figure}[ht]
-\centering
-\includegraphics[width=\columnwidth]{SZZmetrics.png}
-\caption{ Span period of the metrics: Range of BIC (RBIC),  Pessimistic Time To Notify (pTTN), Optimistic Time To Notify (oTTN),Time To Fix (TTF) }
-\label{fig:SZZmetrics}       % Give a unique label
-\end{figure}
+%\begin{figure}[ht]
+%\centering
+%\includegraphics[width=\columnwidth]{SZZmetrics.png}
+%\caption{ Span period of the metrics: Range of BIC (RBIC),  Pessimistic Time To Notify (pTTN), Optimistic Time To Notify (oTTN),Time To Fix (TTF) }
+%\label{fig:SZZmetrics}       % Give a unique label
+%\end{figure}
 
 \section{Evaluation}
 \label{sec:evaluation}
