@@ -581,7 +581,7 @@ Nova belongs to OpenStack project which is a cloud computing platform with a hug
 
 ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has a lower number of commits and contributors than OpenStack, 26,000 commit and 764 contributors. Its policy of labelling an issue as bug report is very strict, thus we could be sure that the tickets analyzed are \emph{real} bug reports. All its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it has been used such as issue tracking system and pull request system in this project.
 
-In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure \grex{citation needed}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
+In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure, presented at the Doctoral Consortium at the 12\textsuperscript{th} International Conference on Open Source Systems~\cite{crowston2016proceedings}\grex{citation needed}\gema{done!}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
 \grex{We should have a replication package with data and scripts}
 
@@ -590,12 +590,12 @@ In this study we used a data set created in a prior research work where we analy
 
 We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare show the real TTN value with the optimistic (oTTN) and pessimistic (pTTN) values resulting of SZZ.
 
-Table~\ref{tableI} shows the mean of the Time To Fix (TTF) and the Time To Notify (TTN) variables computed in each project using the exactly BIC. The table also shows, the value of the TTN calculated through the use of SZZ using the nearest (oTTN) and further (pTTN) suspicious commit to insert the bug.  
+Table~\ref{table} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} shows the mean of the Time To Fix (TTF) and the Time To Notify (TTN) variables computed in each project using the exactly BIC. The table also shows, the value of the TTN calculated through the use of SZZ using the nearest (oTTN) and further (pTTN) suspicious commit to insert the bug.  
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{tableI}
+\label{table}
 \centering
 \caption{Mean in days of the TTN, oTTN, pTTN and TTF in each project}
 % Some packages, such as MDW tools, offer better commands for making tables
@@ -657,8 +657,7 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 \caption{Relationship of the metrics each other in ES project. \grex{We should make these figures bigger}}
 \label{fig:graph1}       % Give a unique label
 \end{figure}
- 
-\gema{I also have results about the author of the bug is the same that reported it or the same that fixed it or maybe both, but I'm not sure how to present them. Does it work in percentage? or maybe is it better in a bar diagram? }
+
 
 To give context about the possible reasons for the value of the TTN in both project, we observed whether the persons introducing the BIC, reporting the bug or fixing it were the same person or not. The Table~\ref{tableII} and Table~\ref{tableIII} show the percentage of people in ElasticSearch and Nova respectively who: (1) notified and fixed the bug, (2) Introduced the BIC, notified the bug and fixed it, (3) Introduced the BIC and notified the bug, or (4) Introduced the BIC and fixed the bug.
 \begin{table}[!t]
@@ -705,21 +704,28 @@ After analyzing several fixing commit in this study, we have realized that the r
 
 The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. To calculate the median time of bug fixing in each project we add to the TTN values the median time to fix a bug per project, it arise that bug fixing time in ElasticSearch does not have any variation whereas it is increased in Nova reaching to almost 400 days. In addition, using the range of BTF which varies from 100 to 200 calculated by Kim and Whitehead in ~\cite{kim2006long}, we notice that the our BFT in ElasticSearch is on the range but not the Nova. 
 
-
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{RQ1: The mean time to Notify (TTN) a bug in ElasticSearch is 312 days while the TTN presents at Nova is 431 days } 
+\textbf{$H_0$: The real values of the Time to Notify (TTN) a bug in both projects differ from the values calculated with SZZ } 
 \end{minipage}}
 \vspace{0.1cm}
 
-One of our findings is the weak negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EUB is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project.
-\gema{speak about the correlation of pTNN, oTTN and TTN}
+One of our findings is the negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EUB is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{ RQ2: The experience of the author who inserted the bug in the source code and the time to notify such bug have a weak correlation in Nova project  } 
+\textbf{ $H_2$: The experience of the author who inserted the bug in the source code and the Time To Notify such bug have a correlation in Nova project} 
 \end{minipage}}
 \vspace{0.1cm}
+
+On the contrary, the results denote that the hypothesis $H_1$ and $H_3$ are positives. 
+
+\vspace{0.2cm}
+\fbox{\begin{minipage}{24em}
+\textbf{ $H_1$, $H_3$: The results do not show any correlation between the Time To Fix with the Time to Notify or the experience of the author who inserted the bug in the source code} 
+\end{minipage}}
+\vspace{0.1cm}
+
 
 A interesting question to answer was \emph{Do the authors of the BIC fix/notify theirs bugs?}. In ElasticSearch a 43\% of the developers
  that opened a bug report notifying the wrong behavior of the system, then fixed the bug. In addition, the author of the BIC was the person who afterwards fixed it in a 43\%. Whereas in Nova, the percentage of developers reporting and fixing the bug is higher, a 77\%. But, it was not common that the authors of the BIC fixed their own bugs, only 18\% of the developer did it. 

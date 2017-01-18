@@ -12,6 +12,14 @@ P.~Bhattacharya and I.~Neamtiu.
 \newblock In {\em Proceedings of the 8th Working Conference on Mining Software
   Repositories}, pages 207--210. ACM, 2011.
 
+\bibitem{crowston2016proceedings}
+K.~Crowston, I.~Hammouda, J.~Lindman, B.~Lundell, and G.~Robles.
+\newblock Proceedings of the doctoral consortium at the 12th international
+  conference on open source systems.
+\newblock In {\em Doctoral Consortium at the 12th International Conference on
+  Open Source Systems, Gothenburg, Sweden, 30 May, 2016}. University of
+  Sk{\"o}vde, 2016.
+
 \bibitem{eyolfson2011time}
 J.~Eyolfson, L.~Tan, and P.~Lam.
 \newblock Do time of day and developer experience affect commit bugginess?
