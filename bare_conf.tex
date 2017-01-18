@@ -367,19 +367,19 @@
 \IEEEauthorblockA{LibreSoft/GSyC\\
 Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
-gerope@libresoft.es}
-\and
-\IEEEauthorblockN{Jesus M. Gonzalez-Barahona}
-\IEEEauthorblockA{LibreSoft/GSyC\\
-Universidad Rey Juan Carlos\\
-Fuenlabrada, Spain\\
-jgb@gsyc.es}
+gerope@libresoft.info}
 \and
 \IEEEauthorblockN{Gregorio Robles}
 \IEEEauthorblockA{LibreSoft/GSyC\\
 Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 grex@gsyc.urjc.es}
+\and
+\IEEEauthorblockN{Jesus M. Gonzalez-Barahona}
+\IEEEauthorblockA{LibreSoft/GSyC\\
+Universidad Rey Juan Carlos\\
+Fuenlabrada, Spain\\
+jgb@gsyc.es}
 }
 
 % conference papers do not typically use \thanks and this command
@@ -447,7 +447,10 @@ Bug introduction change; bug seeding metrics;
 \section{Introduction}
 \label{sec:intro}
 
-The \emph{Time To Notify} (TTN) a bug is the time that goes from the introduction of a bug in the source code to when the wrong behavior is notified in the bug tracking system of a project. The concept of TTN provides insight into fundamental aspects of the software maintenance of a project. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality. \grex{We should motivate better! What is the impact for practitioners?}
+The \emph{Time To Notify} (TTN) a bug is the time that goes from the introduction of a bug in the source code to when the wrong behavior is notified in the bug tracking system of a project. The concept of TTN provides insight into fundamental aspects of the software maintenance of a project. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality. 
+
+In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the time to notify a Bug, and it may suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active. As consecuence, developers could know where they should make more efforts in the software.\grex{We should motivate better! What is the impact for practitioners?} \gema{What do you think?}
+
 
 In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it in some specific scenarios that frequently happen during the evolution of a software system it may provide a wrong measure. These scenarios, such as changes in the API or update versions \grex{update versions?}, present a common characteristic: the bug was not introduced in the  previous commit(s) as the introduced lines were correct at that time; other, external changes are the ones that mad the wrong behavior appear. 
 
@@ -457,14 +460,22 @@ In this paper, we measure TTN for a set of bugs from two different Free/Libre/Op
 
 Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
 
-Summing up, we are interested in studying the real value of TTN to answer following research questions:
+%Summing up, we are interested in studying the real value of TTN to answer following research questions:
 
+%\begin{itemize}
+%\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
+%\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
+%\end{itemize}
+Summing up, we are interested in studying the real value of TTN to answer following null hypothesis:
+\gema{This null hypothesis could be work?}
 \begin{itemize}
-\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
-\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
+\item $H_0$: The real values of TTN do not differ from the values calculated with SZZ.
+\item $H_1$: There is not correlation between the TTN and the TTF.
+\item $H_2$: There is not correlation between the TTN and the EuBIC.
+\item $H_3$: There is not correlation between the TTF and the EuBIC.
 \end{itemize}
-
-Our main findings reveal that the \emph{real} mean TTN ranges from ten months in ElasticSearch to fourteen months in Nova. If we compare our results with the ones obtained with applying the SZZ algorithm, in the optimistic approach (i.e., considering the newest ones) the mean TTN in Nova is eight months and in ElasticSearch five months and in the pessimistic one (i.e., considering the oldest ones) the mean in Nova is thirteen months and twelve months in ElasticSearch. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug. \grex{If it is not completely clear, then we should skip this paragraph. For instance, the reader does not know what optimistic and pessimistic SZZ is at this time. We should focus really more on the contributions than on the results, which are given later!}
+Our main contributions of this paper reveal that the \emph{real} mean TTN range differs from the calculated with other methods, and in addition, this time have a dependency with the experience of the developer who inserted the bug. Thus, to measure the TTN is crucial to determine the exactly location of BIC, and a simple way to solve that problem is inserting a new field/option in the bug tracking system to record which commit was the BIC, the developer fixing the bug knows exactly which commit was the BIC and (s)he could insert this information in the system to provide a better way to measure the effort made in a software.
+%Our main findings reveal that the \emph{real} mean TTN ranges from ten months in ElasticSearch to fourteen months in Nova. If we compare our results with the ones obtained with applying the SZZ algorithm, in the optimistic approach (i.e., considering the newest ones) the mean TTN in Nova is eight months and in ElasticSearch five months and in the pessimistic one (i.e., considering the oldest ones) the mean in Nova is thirteen months and twelve months in ElasticSearch. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug. \grex{If it is not completely clear, then we should skip this paragraph. For instance, the reader does not know what optimistic and pessimistic SZZ is at this time. We should focus really more on the contributions than on the results, which are given later!}
 
 The remainder of the paper is organized as follows: In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculates the metrics, followed by the results obtained from Nova and ElasticSearch in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements to our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out potential future work in Section~\ref{sec:conclusions}.
 
@@ -476,6 +487,15 @@ Kim and Whitehead calculated the time to fix bugs (\emph{bug-fix time}) in ArgoU
 
 Lionel \emph{et al.} also studied the Fix-Time for Bugs in large Open Source Projects; their results indicate that the priority of a bug in Eclipse is correlated with the time to fix~\cite{marks2011studying}. On the contrary, Bhattacharya \emph{et al.} used regression testing to measure the correlation between bug-fix time with some of the bug report attributes such as number of attachments or bug severity, finding that their results did not present such correlation~\cite{bhattacharya2011bug}.
 
+%Eyolfson \emph{et al.} ~\cite{eyolfson2011time} We define a bug’s lifetime to be the time from the earliest commit which introduced the bugto the bug-fixing commit, also they find that the time and day of a code commit may affect the quality of the code.
+%@inproceedings{eyolfson2011time,
+%  title={Do time of day and developer experience affect commit bugginess?},
+%  author={Eyolfson, Jon and Tan, Lin and Lam, Patrick},
+%  booktitle={Proceedings of the 8th Working Conference on Mining Software Repositories},
+%  pages={153--162},
+%  year={2011},
+%  organization={ACM}
+%}
 %Lehtonen \emph{et al.} studied the review process in Gerrit and introduced some metrics such as the review time, integration time or average number of patch-sets explaining that monitoring the code review process is not as easy as was we could think~\cite{lehtonen2015metrics}.
 
 %Authors ~\cite{zhang2012empirical} studied which factors affect in the delayed time incurred by developers from the bug was opened until the fixing activity started. Their explanation to this delay was the: Type, Severity, Operating System, Property of Code or Comments of a Bug~\cite{zhang2012empirical} 
