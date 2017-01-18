@@ -547,25 +547,6 @@ Figure~\ref{fig:metrics} provides a visual explanation of the various metrics pr
 \end{figure}
 
 Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. To compare our results with the ones obtained after using the SZZ algorithm, we select the earliest commit which introduced the bug to the bug-fixing commit as in prior works~\cite{eyolfson2011time}. In addition, we must discard those fixing commits with only new lines since SZZ algorithm removes them from the analysis.
-%Besides these metrics, we calculate two more metrics related with TTN, which will be used to compare our results with the ones obtained after using the SZZ algorithm. Until now, all the values have been calculated using the exact location of the BIC, but the SZZ algorithm does not locate the precise commit in which the bug was introduced, and its outcome could be a a set of commits among which the \emph{real} BIC may or not be. 
-
-%To compare how the TTN obtained through SZZ algorithm differs with ours, we describe these two times:
-%\begin{itemize}
-%	\item \emph{Optimistic Time To Notify Optimistic} (oTTN): It assumes that the BIC is the closest commit in time to the bug report date, thus it measures the time since such commit until wrong behavior was reported.
-%	\item \emph{Pessimistic Time To Notify Pessimistic} (pTTN): It assumes that the BIC is furthest commit in time, thus it measures the worst time possible until the bug was notified.
-%\end{itemize}
-
-%\grex{oTTN and pTTN is still not clear... we would probably need an example like the one in Figure~\ref{fig:metrics}}
-%\gema{is it better now?}
-
-%The Figure~\ref{fig:SZZmetrics} shows how oTTN and pTTN are calculated, from the set of previous commits we build the \emph{Range of BIC} (RBIC) where the \emph{real} BIC may be. This range includes the time from the oldest to the newest merged commit in the master branch among the set of commits resulting from SZZ.
-  
-%\begin{figure}[ht]
-%\centering
-%\includegraphics[width=\columnwidth]{SZZmetrics.png}
-%\caption{ Span period of the metrics: Range of BIC (RBIC),  Pessimistic Time To Notify (pTTN), Optimistic Time To Notify (oTTN),Time To Fix (TTF) }
-%\label{fig:SZZmetrics}       % Give a unique label
-%\end{figure}
 
 \section{Evaluation}
 \label{sec:evaluation}
@@ -583,25 +564,44 @@ In this study we used a data set created in a prior research work where we analy
 \section{Results}
 \label{sec:results}
 
-We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare the real TTN value with the optimistic (oTTN) and pessimistic (pTTN) values resulting of SZZ.
+We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare these values with the values resulting of SZZ.
 
-Table~\ref{table} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} shows the mean of the Time To Fix (TTF) and the Time To Notify (TTN) variables computed in each project using the exactly BIC. The table also shows, the value of the TTN calculated through the use of SZZ using the nearest (oTTN) and furthest (pTTN) suspicious commit to insert the bug.  
+Table~\ref{tableNova} and Table~\ref{tableES} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} show the mean of the Time To Notify (TTN), the Time To Fix (TTF) and the Bug Fixing Time (BFT) variables computed in Nova and ElasticSearch project, respectively,  using our methodology \emph{Manually} and the SZZ algorithm. 
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{table}
+\label{tableNova}
 \centering
-\caption{Mean in days of the TTN, oTTN, pTTN and TTF in each project}
+\caption{Mean in days of the TTN, TTF, BFT in Nova project}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
-\begin{tabular}{|c||c||c||c||c| }
+\begin{tabular}{|c||c||c||c| }
 \hline
-  & TTN & oTTN & pTTN & TTF \\
+  & TTN & TTF & BFT \\
 \hline
-Nova & 431 & 257 & 410 & 64 \\
+Manually & 432 & 65 & 497 \\
 \hline
-ElasticSearch & 312 & 171 & 375 & 14\\
+SZZ & 260 & 52 & 312\\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!t]
+% increase table row spacing, adjust to taste
+\renewcommand{\arraystretch}{1.3}
+\label{tableES}
+\centering
+\caption{Mean in days of the TTN, TTF, BFT in ElasticSearch project}
+% Some packages, such as MDW tools, offer better commands for making tables
+%% than the plain LaTeX2e tabular which is used here.
+\begin{tabular}{|c||c||c||c| }
+\hline
+  & TTN & TTF & BFT \\
+\hline
+Manually & 312 & 14 & 326 \\
+\hline
+SZZ & 135 & 16 & 151\\
 \hline
 \end{tabular}
 \end{table}
@@ -626,7 +626,7 @@ Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} shows the TTN as wel
 %\label{fig:graph5}       % Give a unique label
 \end{figure}
 
-The Figure~\ref{fig:correlation} shows the correlation between the metrics under analysis in Nova project. It shows a strong positive correlation between the TTN, oTTN and pTTN, also it shows a weak negative correlation between the experience of the author introducing the bug and the time to notify. The ElasticSearch project only showed the strong positive correlation between the TTN variables, and we decided not display the graph.
+The Figure~\ref{fig:correlation} shows the correlation between the metrics under analysis in Nova project. It shows a moderate negative correlation, $-0.56$, between the experience of the author introducing the bug and the Time To Notify. The value of this correlation in ElasticSearch project is $-0.383$, that means a weaker correlation than the one shows in Nova project and we decided not display the graph.
 
 \begin{figure}[ht]
 \centering
@@ -635,7 +635,7 @@ The Figure~\ref{fig:correlation} shows the correlation between the metrics under
 \label{fig:correlation}       % Give a unique label
 \end{figure}
 
-The Figure~\ref{fig:graph} shows the correlation distribution that each variable has with the others in Nova project. While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EuBIC against TTF does not indicate such small tendency.
+The Figure~\ref{fig:graph} shows the correlation distribution that each variable has with the others in Nova project. While we can suspect a negative inclination in the relationship between TTN and EuBIC which indicates how closely this two variables are related, the plot for TTN or EuBIC against TTF does not indicate such tendency.
 
 \begin{figure}[ht]
 \centering
@@ -645,7 +645,7 @@ The Figure~\ref{fig:graph} shows the correlation distribution that each variable
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
-On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, it is more difficult to notice the negative inclination in the graph comparing TTN and EuBIC but, although the matrix correlations showed a very weak value for this comparison in this project, we may see the small tendency in the graph. On the contrary, the plot for TTN or EuBIC against TTF does not indicate such small tendency as in Nova.
+On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, it is more difficult to notice the negative inclination in the graph comparing TTN and EuBIC but, although the matrix correlations showed a very weak value for this comparison in this project, we may see the small tendency in the graph. On the contrary, the plot for TTN or EuBIC against TTF does not indicate such tendency.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
@@ -695,21 +695,22 @@ No & 9 (23\%) & 34 (87\%) & 34 (87\%) & 32 (82\%) \\
 \section{Discussion}
 \label{sec:discussion}
 
-After analyzing several fixing commit in this study, we have realized that the real time to notify a bug differs to the one computed using algorithm such as SZZ, in both cases the TTN is nearest to the pTTN, but around a 82\% of the \emph{pessimistic/optimistic} commits resulting from SZZ coincided with the BIC. Furthermore, many variables could have some impact determining the time to notify which we does not have into account.
+After analyzing several fixing commit in this study, we have realized that the \emph{real} Time To Notify a bug differs to the one computed using an algorithm such as SZZ, the percentage of times that this metric concurs is 36\% in Nova and 24\% in ElasticSearch. The TTN computed using SZZ is almost the half that the one calculated using our methodology. The principal reasons of this results are (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The assumption done by SZZ where the earliest commit to the bug fixing commit is suspicious to be the BIC.
 
-The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. To calculate the median time of bug fixing in each project we add to the TTN values the median time to fix a bug per project, it arise that bug fixing time in ElasticSearch does not have any variation whereas it is increased in Nova reaching to almost 400 days. In addition, using the range of BTF which varies from 100 to 200 calculated by Kim and Whitehead in ~\cite{kim2006long}, we notice that the our BFT in ElasticSearch is on the range but not the Nova. 
+
+The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. To calculate the median time of bug fixing in each project we add to the TTN values the median time to fix a bug per project, it arise that bug fixing time in ElasticSearch does not have any variation whereas it is increased in Nova reaching to almost 400 days. In addition, using the range of BFT which varies from 100 to 200 calculated by Kim and Whitehead in ~\cite{kim2006long}, we notice that none of the projects are on the range. The explanation of that is because to calculate the bug fixing time they use SZZ to locate the suspicious commit to be the BIC.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{$H_0$: The real values of the Time to Notify (TTN) a bug in both projects differ from the values calculated with SZZ } 
+\textbf{$H_0$: The real value of the Time to Notify (TTN) a bug in both projects differs from the value calculated using SZZ } 
 \end{minipage}}
 \vspace{0.1cm}
 
-One of our findings is the negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EuBIC is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project.
+One of our findings is the negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EuBIC is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project at this moment.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{ $H_2$: The experience of the author who inserted the bug in the source code and the Time To Notify such bug have a correlation in Nova project} 
+\textbf{ $H_2$: The experience of the author who inserted the bug in the source code and the Time To Notify it are correlated} 
 \end{minipage}}
 \vspace{0.1cm}
 
@@ -721,13 +722,10 @@ On the contrary, the results denote that the hypothesis $H_1$ and $H_3$ are posi
 \end{minipage}}
 \vspace{0.1cm}
 
-
 A interesting question to answer was \emph{Do the authors of the BIC fix/notify theirs bugs?}. In ElasticSearch a 43\% of the developers
- that opened a bug report notifying the wrong behavior of the system, then fixed the bug. In addition, the author of the BIC was the person who afterwards fixed it in a 43\%. Whereas in Nova, the percentage of developers reporting and fixing the bug is higher, a 77\%. But, it was not common that the authors of the BIC fixed their own bugs, only 18\% of the developer did it. 
- 
-One possible reason to explain the lower percentage of authors who fixed the bug may be because they were no longer in the project after the bug was reported. But in fact, the number of authors who abandoned the project before the bug was reported were only one in ElasticSearch and two in Nova, so in the data analyzed there are other reasons more important that proprietary of the code to fix a bug. On the contrary, the high percentage of developer notifying and fixing the bugs may be due to when they are reporting the bug, they already know how to fix it, and this might have and impact reducing the time to fix a bug. 
- 
-\gema{ Have the TTN some relation with the fact that the authors fixed/notified their own bugs?)} 
+ that opened a bug report notifying the wrong behavior of the system, then fixed the bug. In addition, the author of the BIC was the person who afterwards fixed it in a 43\%. Whereas in Nova, the percentage of developers reporting and fixing the bug is higher, a 77\%. But, it was not common that the authors of the BIC fixed their own bugs, only 18\% of the developer did it. One possible reason to explain the lower percentage of authors who fixed their bugs may be because they were no longer in the project after the bug was reported. But in fact, the number of authors who abandoned the project before the bug was reported were only one in ElasticSearch and two in Nova, so in the data analyzed there must be other reasons more important that proprietary of the code to fix a bug. On the contrary, the higher percentage of developers notifying and fixing the bugs may be due to when they are reporting the bug, they already know how to fix it, and this might have and impact reducing the time to fix a bug. 
+
+Finally, the analysis of the Time To Notify a bug has demonstrated that is a valuable metric which has a correlation with the experience of the author who inserted the BIC in the source code and which is not being measured correctly. As solution, the bug tracking system has to evolve providing a field to write which is the bug introduction commit according to the developer who fixed the bug. There is no one more qualified at this moment that knows where and when the bug was caused, that way the researchers might trust in that commit and build a better models that measure the effort of a software.  
 
 \section{Threats to validity}
 \label{sec:threats}
@@ -751,9 +749,9 @@ The most important external threats, most of them related to peculiarities of th
 \section{Conclusion and further research}
 \label{sec:conclusions}
 
-The studied we have performed in Nova and ElasticSearch has shown that the mean time to notify a bug in the system is higher than 10 months when the location of the bug introducing change is known. Whereas using SZZ to calculate this metric, the optimistic value is more than 5 months and the pessimistic value is more than 12 months. 
+The studied we have performed in Nova and ElasticSearch has shown that the mean time to notify a bug in the system is higher than ten months when the location of the bug introducing change is known. Whereas using SZZ to calculate this metric this value is higher than five months.
 
-Our study also shows a weak negative correlation between the TTN and the EuBIC in Nova, which may indicates that a higher time to notify a fewer experience of the author. 
+Our study also shows a negative correlation between the TTN and the EuBIC, which may indicates that a higher time to notify a fewer experience of the author who created the bug. 
 
 Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
 
