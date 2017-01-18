@@ -449,14 +449,14 @@ Bug introduction change; bug seeding metrics;
 
 The \emph{Time To Notify} (TTN) a bug is the time that goes from the introduction of a bug in the source code to when the wrong behavior is notified in the bug tracking system of a project. The concept of TTN provides insight into fundamental aspects of the software maintenance of a project. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality. 
 
-In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the time to notify a Bug, and it may suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active. As consecuence, developers could know where they should make more efforts in the software.\grex{We should motivate better! What is the impact for practitioners?} \gema{What do you think?}
+In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the Time To Notify a Bug, despite it suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active.\grex{We should motivate better! What is the impact for practitioners?} \gema{What do you think?}
 
 
-In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it in some specific scenarios that frequently happen during the evolution of a software system it may provide a wrong measure. These scenarios, such as changes in the API or update versions \grex{update versions?}, present a common characteristic: the bug was not introduced in the  previous commit(s) as the introduced lines were correct at that time; other, external changes are the ones that mad the wrong behavior appear. 
+In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it in some specific scenarios that frequently happen during the evolution of a software system it may provide a wrong measure. These scenarios, such as changes in the API or update versions \grex{update versions?}, present a common characteristic: the bug was not introduced in the previous commit(s) as the introduced lines were correct at that time; other, external changes are the ones that mad the wrong behavior appear. 
 
 %The resulting commit or set of commits is considered as the one who introduced the bug. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines.
 
-In this paper, we measure TTN for a set of bugs from two different Free/Libre/Open Source (FLOSS) software projects, ElasticSearch and Nova. Because of previous research performed on them, we know exactly the location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit or set of previous commits caused the failure in the system.
+In this paper, we measure TTN for a set of bugs from two different Free/Libre/Open Source (FLOSS) software projects, ElasticSearch and Nova. Because of previous research performed on them, we know exactly the location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system.
 
 Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
 
@@ -466,7 +466,8 @@ Furthermore, to better understand how this is related to the maintenance and evo
 %\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
 %\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
 %\end{itemize}
-Summing up, we are interested in studying the real value of TTN to answer following null hypothesis:
+
+Summing up, we are interested in studying the real value of TTN to validate the next null hypothesis:
 \gema{This null hypothesis could be work?}
 \begin{itemize}
 \item $H_0$: The real values of TTN do not differ from the values calculated with SZZ.
@@ -485,17 +486,10 @@ The remainder of the paper is organized as follows: In Section~\ref{sec:relatedw
 
 Kim and Whitehead calculated the time to fix bugs (\emph{bug-fix time}) in ArgoUML and PostgreSQL projects reporting that the median time for fixing a single bug is about 200 days. Also, they argue that this time is a significant factor to measure the quality of a software system~\cite{kim2006long}. Furthermore, Guo \emph{et al.} studied two Microsoft products, looking for the attributes that had influence in the fixing commit: they found that bugs reported by developers with higher reputation were not only more likely to get fixed, but also fixed faster~\cite{guo2010characterizing}.
 
+Eyolfson \emph{et al.} define the (\emph{bug-fix time}) as the time from the earliest commit which introduced the bug to the bug-fixing commit. Their findings show that the time and day of a code commit may affect the quality of the code~\cite{eyolfson2011time}.
+
 Lionel \emph{et al.} also studied the Fix-Time for Bugs in large Open Source Projects; their results indicate that the priority of a bug in Eclipse is correlated with the time to fix~\cite{marks2011studying}. On the contrary, Bhattacharya \emph{et al.} used regression testing to measure the correlation between bug-fix time with some of the bug report attributes such as number of attachments or bug severity, finding that their results did not present such correlation~\cite{bhattacharya2011bug}.
 
-%Eyolfson \emph{et al.} ~\cite{eyolfson2011time} We define a bug’s lifetime to be the time from the earliest commit which introduced the bugto the bug-fixing commit, also they find that the time and day of a code commit may affect the quality of the code.
-%@inproceedings{eyolfson2011time,
-%  title={Do time of day and developer experience affect commit bugginess?},
-%  author={Eyolfson, Jon and Tan, Lin and Lam, Patrick},
-%  booktitle={Proceedings of the 8th Working Conference on Mining Software Repositories},
-%  pages={153--162},
-%  year={2011},
-%  organization={ACM}
-%}
 %Lehtonen \emph{et al.} studied the review process in Gerrit and introduced some metrics such as the review time, integration time or average number of patch-sets explaining that monitoring the code review process is not as easy as was we could think~\cite{lehtonen2015metrics}.
 
 %Authors ~\cite{zhang2012empirical} studied which factors affect in the delayed time incurred by developers from the bug was opened until the fixing activity started. Their explanation to this delay was the: Type, Severity, Operating System, Property of Code or Comments of a Bug~\cite{zhang2012empirical} 
@@ -588,9 +582,9 @@ In this study we used a data set created in a prior research work where we analy
 \section{Results}
 \label{sec:results}
 
-We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare show the real TTN value with the optimistic (oTTN) and pessimistic (pTTN) values resulting of SZZ.
+We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare the real TTN value with the optimistic (oTTN) and pessimistic (pTTN) values resulting of SZZ.
 
-Table~\ref{table} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} shows the mean of the Time To Fix (TTF) and the Time To Notify (TTN) variables computed in each project using the exactly BIC. The table also shows, the value of the TTN calculated through the use of SZZ using the nearest (oTTN) and further (pTTN) suspicious commit to insert the bug.  
+Table~\ref{table} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} shows the mean of the Time To Fix (TTF) and the Time To Notify (TTN) variables computed in each project using the exactly BIC. The table also shows, the value of the TTN calculated through the use of SZZ using the nearest (oTTN) and furthest (pTTN) suspicious commit to insert the bug.  
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
@@ -636,11 +630,11 @@ The Figure~\ref{fig:correlation} shows the correlation between the metrics under
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{correlationMatrix.png}
-\caption{Correlation Matrix of each metric in Nova project}
+\caption{Correlation Matrix of the variables measured in Nova project. Correlation coefficients are coloured according to the value where the white means a correlation value of 0, the red tone increases with the grade of positive correlation and the blue tone decreases with the grade of negative correlation }
 \label{fig:correlation}       % Give a unique label
 \end{figure}
 
-The Figure~\ref{fig:graph} shows the correlation distribution that each variable has with the others in Nova project. While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EUB against TTF does not indicate such small tendency.
+The Figure~\ref{fig:graph} shows the correlation distribution that each variable has with the others in Nova project. While we can suspect a weak negative inclination in the relationship between TTN and EUB which indicate how closely this two variables are related, the plot for TTN or EuBIC against TTF does not indicate such small tendency.
 
 \begin{figure}[ht]
 \centering
@@ -650,7 +644,7 @@ The Figure~\ref{fig:graph} shows the correlation distribution that each variable
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
-On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, it is more difficult to notice the negative inclination in the graph comparing TTN and EUB but, although the matrix correlations showed a very weak value for this comparison in this project, we may see the small tendency in the graph. On the contrary, the plot for TTN or EUB against TTF does not indicate such small tendency as in Nova.
+On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are related each others in the ElasticSearch project. In this project, it is more difficult to notice the negative inclination in the graph comparing TTN and EuBIC but, although the matrix correlations showed a very weak value for this comparison in this project, we may see the small tendency in the graph. On the contrary, the plot for TTN or EuBIC against TTF does not indicate such small tendency as in Nova.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
@@ -710,7 +704,7 @@ The median time to notify a bug is almost 200 days in ElasticSearch and about 35
 \end{minipage}}
 \vspace{0.1cm}
 
-One of our findings is the negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EUB is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project.
+One of our findings is the negative correlation that Nova presents between two of the variables compared. This correlations implies that the TTN increases when the EuBIC is lower, meaning that one of the reasons why the TTN is high some times could be that the author who injected the bug in the code had few experience in the project.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
