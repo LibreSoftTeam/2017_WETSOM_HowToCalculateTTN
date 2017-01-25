@@ -449,7 +449,7 @@ Bug introduction change; bug seeding metrics;
 
 The \emph{Time To Notify} (TTN) a bug is the time that goes from the introduction of a bug in the source code to when the wrong behavior is notified in the bug tracking system of a project. The concept of TTN provides insight into fundamental aspects of the software maintenance of a project. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality. 
 
-In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the Time To Notify a Bug, despite it suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active.\grex{We should motivate better! What is the impact for practitioners?} \gema{What do you think?}
+In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the Time To Notify a Bug, despite it suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active.
 
 
 In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it in some specific scenarios that frequently happen during the evolution of a software system it may provide a wrong measure. These scenarios, such as changes in the API, present a common characteristic: the bug was not introduced in the previous commit(s) as the introduced lines were correct at that time; other, external changes are the ones that mad the wrong behavior appear. 
@@ -538,7 +538,7 @@ Next, we describe the metrics. Notice that the value of all these metrics has be
 		\item \emph{Bug Fixing Time} (BFT): It measures the time from the date of the BIC and the fixing commit date. This time is calculated as the addition of the TTN and TTF time.
 \end{itemize} 
 
-Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. \grex{Explain the figure with an example}. As example, to obtain such metrics in the bug report \#13334 of ElasticSearch, we need to know that the fixing commit is $c6da8d5e1$ and the BIC is $c73fff7$. Then, analyzing the metadata of theses commits, we obtain the date and the author of each commit. Thus, the bug report was done on 4\textsuperscript{th} September 2015, the fixing commit was done on 15\textsuperscript{th} September 2015 and the BIC was inserted on 13\textsuperscript{th} July 2015 by a developer with almost 3 years of experience in that project. Hence, at this example the values of the metrics under study are: 54 days for TTN, 11 days for TTF, 65 days for BFT and 1097 days for the EuBIC.
+Figure~\ref{fig:metrics} provides a visual explanation of the various metrics proposed in this paper. As example, to obtain such metrics in the bug report \#13334 of ElasticSearch, we need to know that the fixing commit is $c6da8d5e1$ and the BIC is $c73fff7$. Then, analyzing the metadata of theses commits, we obtain the date and the author of each commit. Thus, the bug report was done on 4\textsuperscript{th} September 2015, the fixing commit was done on 15\textsuperscript{th} September 2015 and the BIC was inserted on 13\textsuperscript{th} July 2015 by a developer with almost 3 years of experience in that project. Hence, at this example the values of the metrics under study are: 54 days for TTN, 11 days for TTF, 65 days for BFT and 1097 days for the EuBIC.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{metrics.png}
@@ -557,7 +557,7 @@ Nova belongs to OpenStack project which is a cloud computing platform with a hug
 
 ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has a lower number of commits and contributors than OpenStack, 26,000 commit and 764 contributors. Its policy of labelling an issue as bug report is very strict, thus we could be sure that the tickets analyzed are \emph{real} bug reports. All its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it has been used such as issue tracking system and pull request system in this project.
 
-In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure, presented at the Doctoral Consortium at the 12\textsuperscript{th} International Conference on Open Source Systems~\cite{crowston2016proceedings}\grex{citation needed}\gema{done!}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
+In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure, presented at the Doctoral Consortium at the 12\textsuperscript{th} International Conference on Open Source Systems~\cite{crowston2016proceedings}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
 
 \section{Results}
@@ -639,8 +639,7 @@ The Figure~\ref{fig:graph} shows the distribution that each variable has with th
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionNova_b.png}
-\caption{ Relationship of the metrics each other in Nova project. \grex{We should make these figures bigger}
-\gema{Better?}}
+\caption{ Relationship of the metrics each other in Nova project.}
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
@@ -648,7 +647,7 @@ On the other hand, the Figure~\ref{fig:graph1} also shows how the variables are 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{DistributionES_b.png}
-\caption{Relationship of the metrics each other in ES project. \grex{We should make these figures bigger}}
+\caption{Relationship of the metrics each other in ES project.}
 \label{fig:graph1}       % Give a unique label
 \end{figure}
 
