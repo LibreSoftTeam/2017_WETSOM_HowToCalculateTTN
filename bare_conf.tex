@@ -467,13 +467,10 @@ Furthermore, to better understand how this is related to the maintenance and evo
 %\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
 %\end{itemize}
 
-Summing up, we are interested in studying the real value of TTN to validate the next null hypothesis:
-\gema{This null hypothesis could be work?}
+Summing up, we are interested in studying the real value of TTN to answer following research questions:
 \begin{itemize}
-\item $H_0$: The real values of TTN do not differ from the values calculated using SZZ.
-\item $H_1$: There is not correlation between the Time To Notify and the Time To Fix.
-\item $H_2$: There is not correlation between the Time To Notify and the experience of the developer inserting the bug.
-\item $H_3$: There is not correlation between the Time To Fix and the experience of the developer inserting the bug
+\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
+\item RQ2: What is the correlation of TTN with others characteristics of the project/developers involved in the bug fixing process? 
 \end{itemize}
 Our main contributions of this paper reveal that the \emph{real} TTN mean differs from the mean calculated with other methods, and in addition, this variable has a dependency with the experience of the developer who inserted the bug. On the other hand, to measure the TTN is crucial to determine exactly the location of the BIC, and so far now no precise way exists, we propose a simple idea which may shed some lights in this problem
 
@@ -562,22 +559,20 @@ ElasticSearch is a distributed FLOSS search and analytics engine written in Java
 
 In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure, presented at the Doctoral Consortium at the 12\textsuperscript{th} International Conference on Open Source Systems~\cite{crowston2016proceedings}\grex{citation needed}\gema{done!}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
-\grex{We should have a replication package with data and scripts}
-\gema{http://gemarodri.github.io/Reprodu-Package/ I have to write more info here, but here we have all the data and the detailed information }
 
 \section{Results}
 \label{sec:results}
 
 We have analyzed exactly the values of the TTN, the EuBIC, and the TTF in the 76 bug fixing commits, 39 belong to Nova and 37 belong to ElasticSearch. In addition, we compare these values with the values resulting from the SZZ algorithm.
 
-Table~\ref{tableNova} and Table~\ref{tableES} \gema{all the references to tables say Table V instead of their correct number, I don't know what is wrong} show the real mean and the SZZ mean of Time To Notify (TTN), Time To Fix (TTF) and Bug Fixing Time (BFT) variables computed in Nova and ElasticSearch project, respectively. 
+Table~\ref{tableNova} and Table~\ref{tableES} show the real mean and the SZZ mean of Time To Notify (TTN), Time To Fix (TTF) and Bug Fixing Time (BFT) variables computed in Nova and ElasticSearch project, respectively. 
 
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{tableNova}
 \centering
 \caption{Mean in days of the TTN, TTF, BFT in Nova project}
+\label{tableNova}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c||c||c| }
@@ -594,9 +589,9 @@ SZZ & 260 & 52 & 312\\
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{tableES}
 \centering
 \caption{Mean in days of the TTN, TTF, BFT in ElasticSearch project}
+\label{tableES}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c||c||c| }
@@ -662,9 +657,9 @@ To give context about the possible reasons for the values of the TTN in both pro
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{tableII}
 \centering
 \caption{Percentage of same people introducing, notifying and fixing the bugs in ElasticSearch project}
+\label{tableII}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c||c||c||c| }
@@ -681,9 +676,9 @@ No & 21 (57\%) & 27 (73\%) & 26 (70\%) & 21 (57\%) \\
 \begin{table}[!t]
 % increase table row spacing, adjust to taste
 \renewcommand{\arraystretch}{1.3}
-\label{tableIII}
 \centering
 \caption{Percentage of same people introducing, notifying and fixing the bugs in Nova project}
+\label{tableIII}
 % Some packages, such as MDW tools, offer better commands for making tables
 %% than the plain LaTeX2e tabular which is used here.
 \begin{tabular}{|c||c||c||c||c| }
@@ -699,14 +694,14 @@ No & 9 (23\%) & 34 (87\%) & 34 (87\%) & 32 (82\%) \\
 \section{Discussion}
 \label{sec:discussion}
 
-After analyzing several fixing commits in this study, we have realized that the \emph{real} Time To Notify a bug differs to the one computed using an algorithm such as SZZ, the percentage of times that this metric concurs is 36\% in Nova and 24\% in ElasticSearch. The TTN computed using SZZ is almost the half that the real one calculated. The principal reasons of this results may be (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The wrong assumption done by SZZ, where the earliest commit to the bug fixing commit is the suspicious to be the BIC.
+After analyzing several fixing commits in this study, we have realized that the \emph{real} Time To Notify a bug differs to the one computed using an algorithm such as SZZ, the percentage of times that this metric concurs is 36\% in Nova and 24\% in ElasticSearch. The mean TTN computed using SZZ is almost the half that the real one calculated. The principal reasons of this results may be (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The wrong assumption where the earliest commit to the bug fixing commit is the suspicious to be the BIC.
 
 
 The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. To calculate the median time of bug fixing in each project we add to the TTN values the median time to fix a bug per project, it arises that bug fixing time in ElasticSearch does not have any variation whereas it is increased in Nova reaching to 400 days. In addition, using the range of BFT which varies from 100 to 200 calculated by Kim and Whitehead in ~\cite{kim2006long}, we notice that only the BFT in ElasticSearch is on the range, but the value is tight. The explanation of that is because to calculate the bug fixing time they use SZZ to locate the suspicious commit to be the BIC.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{$H_0$: The real value of the Time to Notify (TTN) a bug in both projects differs from the value calculated using SZZ } 
+\textbf{RQ1: The real value of the Time to Notify (TTN) a bug in both projects differs from the value calculated using SZZ } 
 \end{minipage}}
 \vspace{0.1cm}
 
@@ -714,17 +709,10 @@ One of our findings is the negative correlation that Nova presents between two o
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
-\textbf{ $H_2$: The experience of the author who inserted the bug in the source code and the Time To Notify it are correlated} 
+\textbf{ RQ2: The experience of the author who inserted the bug in the source code and the Time To Notify it are correlated.On the contrary, the results do not show any correlation between the Time To Fix with the Time to Notify or the experience of the author who inserted the bug in the source code} 
 \end{minipage}}
 \vspace{0.1cm}
 
-On the contrary, the results obtained denote that the hypothesis $H_1$ and $H_3$ are positives. 
-
-\vspace{0.2cm}
-\fbox{\begin{minipage}{24em}
-\textbf{ $H_1$, $H_3$: The results do not show any correlation between the Time To Fix with the Time to Notify or the experience of the author who inserted the bug in the source code} 
-\end{minipage}}
-\vspace{0.1cm}
 
 An interesting question to answer about the reasons why these metrics are low or high is: \emph{Do the authors of the BIC fix/notify theirs bugs?}. The results, showed that in ElasticSearch a 43\% of the developers that opened a bug report notifying the wrong behavior of the system, then fixed the bug. In addition, the author of the BIC was the person who afterwards fixed it in a 43\%. Whereas in Nova, the percentage of developers reporting and fixing the bug is higher, a 77\%. But, it was not common that the authors of the BIC fixed their own bugs, only 18\% of the developer did it. One possible reason to explain the lower percentage of authors who fixed their bugs may be because they were no longer in the project after the bug was reported. But in fact, the number of authors who abandoned the project before the bug was reported were only one in ElasticSearch and two in Nova, so in the data analyzed there must be other reasons more important that proprietary of the code to fix a bug. On the contrary, the higher percentage of developers notifying and fixing the bugs may be due to when they are reporting the bug, they already know how to fix it, and this might have and impact reducing the time to fix a bug. 
 
@@ -762,6 +750,7 @@ In addition, we propose to build a new field/option in the bug tracking system t
 
 Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
 
+\textbf{Replication package}: we have set up a replication package\footnote{\url{http://gemarodri.github.io/Reprodu-Package/}} including data sources, intermediate data and scripts.
 \section*{Acknowledgment}
 
 
