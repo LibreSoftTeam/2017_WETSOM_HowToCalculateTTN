@@ -356,7 +356,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{How much time did it take to notify a Bug? \\ Two case of studies: ElasticSearch and Nova}
+\title{How much time did it take to notify a Bug? \\ Two case studies: ElasticSearch and Nova}
 
 
 % author names and affiliations
@@ -364,19 +364,19 @@
 % affiliations
 
 \author{\IEEEauthorblockN{Gema Rodriguez-Perez}
-\IEEEauthorblockA{LibreSoft/GSyC\\
+\IEEEauthorblockA{GSyC/LibreSoft\\
 Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 gerope@libresoft.info}
 \and
 \IEEEauthorblockN{Gregorio Robles}
-\IEEEauthorblockA{LibreSoft/GSyC\\
+\IEEEauthorblockA{GSyC/LibreSoft\\
 Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 grex@gsyc.urjc.es}
 \and
 \IEEEauthorblockN{Jesus M. Gonzalez-Barahona}
-\IEEEauthorblockA{LibreSoft/GSyC\\
+\IEEEauthorblockA{GSyC/LibreSoft\\
 Universidad Rey Juan Carlos\\
 Fuenlabrada, Spain\\
 jgb@gsyc.es}
@@ -419,11 +419,8 @@ jgb@gsyc.es}
 
 \begin{abstract}
 
-The \emph{Time To Notify} (TTN) a bug is a valuable metric in the software maintenance and evolution studies that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. Even so, it is still a challenge to exactly calculate it since no precise way exists to locate the line where the bug originated. This paper aims to study what is the value of TTN in a two different projects where we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the \emph{time to fix} (TTF) or the developer experience.\\ 
-
-
-As results, we have observed that the mean of the TTN in the projects was 312 days and 431 days. However, only one of the projects showed a moderate correlation between the experience of the author who created the bug and TTN.
-
+The \emph{Time To Notify} (TTN) a bug is a valuable metric in the software maintenance and evolution studies that describes how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code. Even so, it is still a challenge to exactly calculate it since no precise way exists to locate where and when the bug originated. This paper aims to study what is the value of TTN in two different projects. For a set of bugs in these projects, we know exactly which ``previous commit'' was the cause of the failure in the system. Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the \emph{Time To Fix} (TTF) or the developer experience.
+We have observed that the mean of the TTN in the projects was 312 days and 431 days. However, only one of the projects showed a moderate correlation between the experience of the author who created the bug and TTN.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -447,18 +444,17 @@ Bug introduction change; bug seeding metrics;
 \section{Introduction}
 \label{sec:intro}
 
-The \emph{Time To Notify} (TTN) a bug is the time that goes from the introduction of a bug in the source code to when the wrong behavior is notified in the bug tracking system of a project. The concept of TTN provides insight into fundamental aspects of the software maintenance of a project. Nonetheless, it is estimated that 80\% of the total cost of a software system is spent in maintenance and evolution~\cite{tassey2002economic}. Hence, researchers are spending much effort understanding and characterizing software maintenance and evolution processes with metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality. 
+It is well-known that a large amount of the total effort of a software system is spent in maintenance and evolution~\cite{tassey2002economic}, some sources even assigning this phase over 80\% of the total cost. Hence, researchers have spent much effort understanding and characterizing software maintenance and evolution processes. One of the main areas in software maintenance and evolution is related to bug detection and analysis. Metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality have been thus proposed in the research literature \grex{citation required}. One of these metrics, the one that this paper is going to analyze is the the \emph{Time To Notify} (TTN) a bug \grex{Are there other papers on TTN?}. The TTN is the time that goes from the time where a bug has been introduced in the source code to the time when the wrong behavior is notified in the bug tracking system of a project. 
 
-In case of OSS projects like Mozilla, Eclipse and Gnome the effort information is neither stored nor maintained in their bug tracking system (Bugzilla) in spite of the initial and valuable knowledge of the product complexity that it provides. So far, the only bug tracking system that allows store and maintain effort information is JIRA~\cite{weiss2007long} which includes an estimate of the time it will take to fix the issue. Nevertheless, any bug tracking system provides information about the Time To Notify a Bug, despite it suggest an idea of how the software is evolving. While lower values of TTN may denote that some parts of the code are being changed/tested continuously, higher values may denote that these part of the software is not very active.
+The concept of TTN provides insight into fundamental aspects of the software maintenance of a project that are not easy to obtain, especially in Free/Open Source Software (FOSS) communities -- such as the well-known Mozilla, Eclipse or GNOME projects. In these environments, effort information has historically neither been stored nor maintained in their bug tracking system (e.g., Bugzilla) in spite of the valuable knowledge of the product complexity that it  could provide. Currentlly, the only bug tracking system that allows store and maintain some type of effort information related to bug fixing activity is JIRA~\cite{weiss2007long}, as it includes an estimate of the time it will take to fix the issue. However, the TTN can be potentially calculated by combining information from the source code management system (SCM) and bug tracking system (BTS). Although it won't directly provide a measure of (human) effort, it is a proxy of efficience: low values of TTN means a better maintained software (with code being changed/tested continuously), while higher values may denote less maintained software (with potential risks being present for longer periods of time).
 
-
-In fact, to compute the life of a bug in a software, it is necessary know exactly in what line of source code the bug was introduced. As in modern software development, versioning systems such as git are commonly used, meta-data (committer, author, time, etc.) to when the line of source code was included can be retrieved. However, finding the line of code where the bug was introduce is no not a trivial task; several methods can be used to determine what commits are the candidates of inserting a bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it in some specific scenarios that frequently happen during the evolution of a software system it may provide a wrong measure. These scenarios, such as changes in the API, present a common characteristic: the bug was not introduced in the previous commit(s) as the introduced lines were correct at that time; other, external changes are the ones that mad the wrong behavior appear. 
+To compute the life of a bug in a software, it is necessary to know exactly when and where a bug was introduced. As versioning systems (such as git) are commonly used in modern software development, meta-data (committer, author, time, etc.) on all changes exists, and we could potentially identify what line introduced the bug. However, finding the line of code where the bug was introduced is not a trivial task. Several methods have been proposed to determine what commits are the candidates of having introduced a given bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it is prone to provide a wrong measure in some situations that frequently happen during the evolution of a software system. These situations, such as changes in the API, present a common characteristic: the bug was not introduced in the previous commit(s). So, when the line was introduced, the software was correct; the wrong behavior appears due to other, external changes.
 
 %The resulting commit or set of commits is considered as the one who introduced the bug. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines.
 
-In this paper, we measure TTN for a set of bugs from two different Free/Libre/Open Source (FLOSS) software projects, ElasticSearch and Nova. Because of previous research performed on them, we know exactly the location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system.
+In this paper, we measure TTN for a set of bugs from two different FOSS projects: ElasticSearch and Nova. Because of previous research performed on them by the authors, we know the exact location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system.
 
-Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the source code management (SCM) system such as the author of the bug, the time to fix or the developer experience inserting the bug.
+Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the SCM system, such as the author of the bug, the time to fix or the developer experience inserting the bug.
 
 %Summing up, we are interested in studying the real value of TTN to answer following research questions:
 
@@ -467,40 +463,41 @@ Furthermore, to better understand how this is related to the maintenance and evo
 %\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
 %\end{itemize}
 
-Summing up, we are interested in studying the real value of TTN to answer following research questions:
+Summing up, we are interested in studying the \emph{real} value of TTN to answer following research questions:
 \begin{itemize}
-\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
-\item RQ2: What is the correlation of TTN with others characteristics of the project/developers involved in the bug fixing process? 
+  \item RQ1: What are the values of TTN in both projects? What is its mean, median, etc.?
+  \item RQ2: What is the correlation of TTN with others characteristics of the project/developers involved in the bug fixing process? 
 \end{itemize}
-Our main contributions of this paper reveal that the \emph{real} TTN mean differs from the mean calculated with other methods, and in addition, this variable has a dependency with the experience of the developer who inserted the bug. On the other hand, to measure the TTN is crucial to determine exactly the location of the BIC, and so far now no precise way exists, we propose a simple idea which may shed some lights in this problem
+
+Our results reveal that the mean TTN differs from the mean calculated with other methods. In addition, we have found that TTN has a dependency with the experience of the developer who introduced the bug. On the other hand, we note that to measure the TTN is crucial to determine exactly the location of the BIC; so far, now no precise way exists. Thus, we propose a simple idea which may shed some light to this problem.
 
 %Our main findings reveal that the \emph{real} mean TTN ranges from ten months in ElasticSearch to fourteen months in Nova. If we compare our results with the ones obtained with applying the SZZ algorithm, in the optimistic approach (i.e., considering the newest ones) the mean TTN in Nova is eight months and in ElasticSearch five months and in the pessimistic one (i.e., considering the oldest ones) the mean in Nova is thirteen months and twelve months in ElasticSearch. On the other hand, only one of the projects showed a weak correlation between TTN and the experience of the author who introduced the bug. \grex{If it is not completely clear, then we should skip this paragraph. For instance, the reader does not know what optimistic and pessimistic SZZ is at this time. We should focus really more on the contributions than on the results, which are given later!}
 
-The remainder of the paper is organized as follows: In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change and calculates the metrics, followed by the results obtained from Nova and ElasticSearch in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions and discusses potential applications and improvements to our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out potential future work in Section~\ref{sec:conclusions}.
+The remainder of the paper is organized as follows: In Section~\ref{sec:relatedwork} the current body of knowledge is presented. Next, Section~\ref{sec:methodology} describes the methodology used to identify the Bug Introducing Change (BIC) and calculates the metrics. Results obtained for Nova and ElasticSearch are presented in Section~\ref{sec:results}. Section~\ref{sec:discussion} answers the research questions, and discusses potential applications and improvements to our approach. After reporting the limitations and threats to validity in Section~\ref{sec:threats}, we draw some conclusions and point out potential future work in Section~\ref{sec:conclusions}.
 
 \section{Related Work}
 \label{sec:relatedwork}
 
 
-Kim and Whitehead calculated the time to fix bugs (\emph{bug-fix time}) in ArgoUML and PostgreSQL projects reporting that the median time for fixing a single bug is about 200 days. Also, they argue that this time is a significant factor to measure the quality of a software system~\cite{kim2006long}. Furthermore, Guo \emph{et al.} studied two Microsoft products, looking for the attributes that had influence in the fixing commit: they found that bugs reported by developers with higher reputation were not only more likely to get fixed, but also fixed faster~\cite{guo2010characterizing}.
+Kim and Whitehead calculated the time to fix bugs (\emph{bug-fix time}) in ArgoUML and PostgreSQL projects reporting that the median time for fixing a single bug is around 200 days. Also, they argue that this time is a significant factor to measure the quality of a software system~\cite{kim2006long}. Furthermore, Guo \emph{et al.} studied two Microsoft products, looking for the attributes that had influence in the fixing commit: they found that bugs reported by developers with higher reputation were not only more likely to get fixed, but also fixed faster~\cite{guo2010characterizing}.
 
-Eyolfson \emph{et al.} define the (\emph{bug-fix time}) as the time from the earliest commit which introduced the bug to the bug-fixing commit. Their findings show that the time and day of a code commit may affect the quality of the code~\cite{eyolfson2011time}.
+Eyolfson \emph{et al.} define the (\emph{bug-fix time}) as the time from the earliest commit that introduced the bug to the bug-fixing commit. Their findings show that the time and day of a code commit may affect the quality of the code~\cite{eyolfson2011time}.
 
-Lionel \emph{et al.} also studied the Fix-Time for Bugs in large Open Source Projects; their results indicate that the priority of a bug in Eclipse is correlated with the time to fix~\cite{marks2011studying}. On the contrary, Bhattacharya \emph{et al.} used regression testing to measure the correlation between bug-fix time with some of the bug report attributes such as number of attachments or bug severity, finding that their results did not present such correlation~\cite{bhattacharya2011bug}.
+Lionel \emph{et al.} also studied the fix-time for Bugs in large FOSS projects; their results indicate that the priority of a bug in Eclipse is correlated with the time to fix~\cite{marks2011studying}. On the contrary, Bhattacharya \emph{et al.} used regression testing to measure the correlation between bug-fix time with some of the bug report attributes such as number of attachments or bug severity, finding that their results did not present such correlation~\cite{bhattacharya2011bug}.
 
 %Lehtonen \emph{et al.} studied the review process in Gerrit and introduced some metrics such as the review time, integration time or average number of patch-sets explaining that monitoring the code review process is not as easy as was we could think~\cite{lehtonen2015metrics}.
 
 %Authors ~\cite{zhang2012empirical} studied which factors affect in the delayed time incurred by developers from the bug was opened until the fixing activity started. Their explanation to this delay was the: Type, Severity, Operating System, Property of Code or Comments of a Bug~\cite{zhang2012empirical} 
 
-Zhang \emph{et al.} proposed an effective method for predicting the number of bugs that will be fixed in future and the time required and the quickness to fix them in~\cite{zhang2013predicting}. Furthermore, in this line Ginger \emph{et al.} investigated the relationship between bug report attributes in three open source projects, Eclipse, Mozilla, and Gnome, to build a prediction model. Their findings showed that the reporter, the assignee and the date it was opened were the attributes with strongest influence on the fix-time of the bugs~\cite{giger2010predicting}.
+Zhang \emph{et al.} proposed an effective method for predicting the number of bugs that will be fixed in the future and the time required and the quickness \grex{time required and quickness? Aren't they tha same?} to fix them in~\cite{zhang2013predicting}. In this line Ginger \emph{et al.} investigated the relationship between bug report attributes in three FOSS projects --Eclipse, Mozilla, and GNOME-- to build a prediction model. Their findings show that the reporter, the assignee and the date the bug report was opened were the attributes with the strongest influence on the fix-time of the bugs~\cite{giger2010predicting}.
 
 
-Some authors have decided to study how the experience of the author affects in the bug fixing activity. First of all, to measure experience exists several ways: Number of Commits in~\cite{eyolfson2011time}, Fixing activity in~\cite{ahsan2010mining} and Ownership in~\cite{german2004using}. Thus, based on this measures, Izquierdo \emph{et al.} analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results did not show that correlation, meaning that more experience does not imply less bug introducing changes~\cite{izquierdo2012more}. Also, they studied whether contributors who introduced the bug are the same who fixed it, their findings showed that in most cases the bug fixing activity was not carried out by the author or the bug introducing change~\cite{izquierdo2011developers}. 
+Some authors have decided to study how the experience of the author affects in the bug fixing activity. Development experience has been measured in several ways: Number of Commits in~\cite{eyolfson2011time}, Fixing activity in~\cite{ahsan2010mining} and Ownership in~\cite{german2004using}. Thus, based on these measures, Izquierdo \emph{et al.} analyzed some Mozilla modules expecting statistical differences between developers with different levels of experience and the introduction of bugs, but the results did not show correlation, meaning that more experience does not imply less bug introducing changes~\cite{izquierdo2012more}. Also, Izquierdo \emph{et al.} studied whether contributors who introduced a bug were the same who fixed it; their findings show that in most cases the bug fixing activity was not carried out by the author or the bug introducing change~\cite{izquierdo2011developers} \grex{Not clear! The sentence is strange...}. 
 
-Other studies have analyzed this metric to predict the future bugs, and although some article~\cite{weyuker2010programmer} suggest that using this information the prediction of bugs does not improve, other reports~\cite{mockus2000predicting} verify the change's defect probability decreases with the higher experience of the developer. And \cite{matsumoto2010analysis} shows that defect injection rates vary among different developers.
+Other studies have analyzed this metric \grex{what metric?} to predict the future bugs, and although there is research literature that suggests that by using this information the prediction of bugs does not improve~\cite{weyuker2010programmer}, others report that the change's defect probability decreases with higher experience of the developers~\cite{mockus2000predicting}. However, it seems there is evindence that defect injection rates vary among different developers~\cite{matsumoto2010analysis}.
 
 
-While the prior studies were built under the assumption that the previous modifications to a fixed line were the cause of the bug, the value of our study resides in the fact that we do not follow this assumption and instead research for the \emph{true} modification that introduced the bug. Once the \emph{true} modification is identified, we compute some of the metrics that the prior studies in order to compare our results. 
+While the prior studies were built under the assumption that the previous modifications to a fixed line was the cause of the bug, the contribution of our study resides in the fact that we do not follow this assumption, which is sometimes flawed. Instead, we identify the \emph{real} modification that introduced the bug. Once this modification is identified, we compute some of the metrics found in previous studies and compare our results to them.
 
 \section{Methodology}
 \label{sec:methodology}
@@ -555,7 +552,7 @@ We have validated our methodology analyzing tickets from two different projects 
 
 Nova belongs to OpenStack project which is a cloud computing platform with a huge developing community (more than 5,000 developers) and significant industrial support from several major companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors\footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available at GitHub\footnote{\url{https://github.com/openstack/nova}} and it works with git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system and Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
 
-ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has a lower number of commits and contributors than OpenStack, 26,000 commit and 764 contributors. Its policy of labelling an issue as bug report is very strict, thus we could be sure that the tickets analyzed are \emph{real} bug reports. All its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it has been used such as issue tracking system and pull request system in this project.
+ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has a lower number of commits and contributors than OpenStack, 26,000 commit and 764 contributors. Its policy of labeling an issue as bug report is very strict, thus we could be sure that the tickets analyzed are \emph{real} bug reports. All its code is hosted at GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}} and it has been used such as issue tracking system and pull request system in this project.
 
 In this study we used a data set created in a prior research work where we analyzed manually and in detail a total of 76 bug fixing commits of real bug reports, looking in each one for the bug introducing change that caused the failure, presented at the Doctoral Consortium at the 12\textsuperscript{th} International Conference on Open Source Systems~\cite{crowston2016proceedings}. Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
@@ -630,7 +627,7 @@ The Figure~\ref{fig:correlation} shows the correlation between the metrics under
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{correlationMatrix.png}
-\caption{Correlation Matrix of the variables measured in Nova project. Correlation coefficients are coloured according to the value where the white means a correlation value of 0, the red tone increases with the grade of positive correlation and the blue tone decreases with the grade of negative correlation }
+\caption{Correlation Matrix of the variables measured in Nova project. Correlation coefficients are colored according to the value where the white means a correlation value of 0, the red tone increases with the grade of positive correlation and the blue tone decreases with the grade of negative correlation }
 \label{fig:correlation}       % Give a unique label
 \end{figure}
 
