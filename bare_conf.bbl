@@ -82,6 +82,13 @@ S.~Matsumoto, Y.~Kamei, A.~Monden, K.-i. Matsumoto, and M.~Nakamura.
 \newblock In {\em Proceedings of the 6th International Conference on Predictive
   Models in Software Engineering}, page~18. ACM, 2010.
 
+\bibitem{mockus2002two}
+A.~Mockus, R.~T. Fielding, and J.~D. Herbsleb.
+\newblock Two case studies of open source software development: Apache and
+  mozilla.
+\newblock {\em ACM Transactions on Software Engineering and Methodology
+  (TOSEM)}, 11(3):309--346, 2002.
+
 \bibitem{mockus2000predicting}
 A.~Mockus and D.~M. Weiss.
 \newblock Predicting risk of software changes.
