@@ -445,29 +445,24 @@ Bug introduction change; bug seeding metrics;
 \label{sec:intro}
 
 It is well-known that a large amount of the total effort of a software system is spent in maintenance and evolution~\cite{tassey2002economic}, some sources even assigning this phase over 80\% of the total cost. Hence, researchers have spent much effort understanding and characterizing software maintenance and evolution processes. One of the main areas in software maintenance and evolution is related to bug detection and analysis. Metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality have been thus proposed in the research literature~\cite{kim2006long}\cite{mockus2002two}. One of these metrics, the one that this paper is going to analyze is the the \emph{Time To Notify} (TTN) a bug. The TTN is the time that goes from the time where a bug has been introduced in the source code to the time when the wrong behavior is notified in the bug tracking system of a project. 
+\gema{Review 1 said that we should improve the motivation}
 
 The concept of TTN provides insight into fundamental aspects of the software maintenance of a project that are not easy to obtain, especially in Free/Open Source Software (FOSS) communities -- such as the well-known Mozilla, Eclipse or GNOME projects. In these environments, effort information has historically neither been stored nor maintained in their bug tracking system (e.g., Bugzilla) in spite of the valuable knowledge of the product complexity that it  could provide. Currently, the only bug tracking system that allows store and maintain some type of effort information related to bug fixing activity is JIRA~\cite{weiss2007long}, as it includes an estimate of the time it will take to fix the issue. However, the TTN can be potentially calculated by combining information from the source code management system (SCM) and bug tracking system (BTS). Although it won't directly provide a measure of (human) effort, it is a proxy of efficiency: low values of TTN means a better maintained software (with code being changed/tested continuously), while higher values may denote less maintained software (with potential risks being present for longer periods of time).
+\gema{Review 1 said that the paper needs writing some examples or scenarios where TTN could be useful}
 
 To compute the life of a bug in a software, it is necessary to know exactly when and where a bug was introduced. As versioning systems (such as git) are commonly used in modern software development, meta-data (committer, author, time, etc.) on all changes exists, and we could potentially identify what line introduced the bug. However, finding the line of code where the bug was introduced is not a trivial task. Several methods have been proposed to determine what commits are the candidates of having introduced a given bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it is prone to provide a wrong measure in some situations that frequently happen during the evolution of a software system. These situations, such as changes in the API, present a common characteristic: the bug was not introduced in the previous commit(s). So, when the line was introduced, the software was correct; the wrong behavior appears due to other, external changes.
 
-%The resulting commit or set of commits is considered as the one who introduced the bug. Thus, all the metrics calculated using such method present an estimation value of the real time because they are based in this assumption where the bug should be in the previous modifications of the fixed lines.
 
 In this paper, we measure TTN for a set of bugs from two different FOSS projects: ElasticSearch and Nova. Because of previous research performed on them by the authors, we know the exact location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system.
 
 Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the SCM system, such as the author of the bug, the time to fix or the developer experience inserting the bug.
-
-%Summing up, we are interested in studying the real value of TTN to answer following research questions:
-
-%\begin{itemize}
-%\item RQ1: What are the real values of TTN in both projects? What is its mean, median, etc.?
-%\item RQ2: Is there any correlation of TTN with others measures in the bug fixing process? \grex{Not really measures, but characteristics of the project/developers - If we put this RQ2 this way, we should have hypotheses!}
-%\end{itemize}
 
 Summing up, we are interested in studying the \emph{real} value of TTN to answer following research questions:
 \begin{itemize}
   \item RQ1: What are the values of TTN in both projects? What is its mean, median, etc.?
   \item RQ2: What is the correlation of TTN with others characteristics of the project/developers involved in the bug fixing process? 
 \end{itemize}
+\gema{Review 1 said that we should clarify how important are RQ1 and RQ2 for researchers and practitioners}
 
 Our results reveal that the mean TTN differs from the mean calculated with other methods. In addition, we have found that TTN has a dependency with the experience of the developer who introduced the bug. On the other hand, we note that to measure the TTN is crucial to determine exactly the location of the BIC; so far, now no precise way exists. Thus, we propose a simple idea which may shed some light to this problem.
 
@@ -503,11 +498,11 @@ While the prior studies were built under the assumption that the previous modifi
 \label{sec:methodology}
 
 In our study, the data analyzed has been obtained from the source code management system, the issue tracking system and the code review system. We illustrate our methodology in Figure~\ref{fig:methodology}, where the input is a set of bug reports randomly extracted from the issue tracking system. The steps of our process are given by white boxes; the colored boxes give the sources that have been used to obtain the information required in each step.
-
+\gema{Review 1 said that we need to write how bug reports and fixing commits are linked, maybe with an additional step in figure~\ref{fig:methodology}}
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{methodology.png}
-\caption{Diagram with the methodology used in this study, starting with the analysis of a fixing commit, determining the involved lines of code, obtaining the previous commits, finding the BIC and finally computing the value of the metrics for the whole process.}
+\caption{The methodology used in this study, starting with the analysis of a fixing commit, determining the involved lines of code, obtaining the previous commits, finding the BIC and finally computing the value of the metrics for the whole process.}
 \label{fig:methodology}       % Give a unique label
 \end{figure}
 
@@ -533,7 +528,7 @@ To compute the metrics used in this study, we need to identify the BIC. Once thi
 		\item \emph{Bug Fixing Time} (BFT): Time in days from the date of the BIC to the fixing commit date. This value can be also computed by adding TTN and TTF.
 \end{itemize} 
 
-Figure~\ref{fig:metrics} provides a visual explanation of the metrics proposed in this paper. For example, to obtain the metrics for bug report \#13334 of ElasticSearch, we need to know identify the fixing commit (which is $c6da8d5e1$) and the BIC ($c73fff7$). Then, analyzing the meta-data of theses commits, we obtain the date and the author for both of them: the bug report was done in September 4\textsuperscript{th} 2015, the fixing commit in  September 15\textsuperscript{th} 2015, and the BIC was inserted in July 13\textsuperscript{th}  2015 by a developer with almost 3 years of experience in the project. Hence, in our example, the values of the metrics under study are: 54 days for TTN, 11 days for TTF, 65 days for BFT and 1,097 days for EuBIC.
+Figure~\ref{fig:metrics} provides a visual explanation of the metrics proposed in this paper. For example, to obtain the metrics for bug report \#13334 of ElasticSearch, we need to identify the fixing commit (which is $c6da8d5e1$) and the BIC ($c73fff7$). Then, analyzing the meta-data of theses commits, we obtain the date and the author for both of them: the bug report was done in September 4\textsuperscript{th} 2015, the fixing commit in  September 15\textsuperscript{th} 2015, and the BIC was inserted in July 13\textsuperscript{th}  2015 by a developer with almost 3 years of experience in the project. Hence, in our example, the values of the metrics under study are: 54 days for TTN, 11 days for TTF, 65 days for BFT and 1,097 days for EuBIC.
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{metrics.png}
@@ -541,6 +536,7 @@ Figure~\ref{fig:metrics} provides a visual explanation of the metrics proposed i
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
+\gema{Review 1 said that the comparison with SZZ should be mentioned earlier in the paper (goal/contribution)}
 We would like to compare our metrics with the widely used SZZ algorithm. We will therefore assume that the closest commit in time (i.e., the previous one) of the SZZ algorithm is the one that induces the bug-fixing commit, as it has been done in previous works~\cite{eyolfson2011time}. It should be noted, however, that the SZZ algorithm may not identify the BIC correctly, as its outcome could be a set of commits among which the \emph{real} BIC is not included. In addition, in our comparison we discard those fixing commits with only new lines, since the SZZ algorithm removes them from the analysis.
 
 
@@ -548,11 +544,11 @@ We would like to compare our metrics with the widely used SZZ algorithm. We will
 \label{sec:evaluation}
 
 We have validated our methodology analyzing tickets from two projects, Nova and ElasticSearch, written in different programming languages. %Nova uses Python, an interpreted language, whereas ElasticSearch uses Java, a compiled language.  Thus, we can study the dependency of TTN with the programming language that the project is using.
-
+\gema{Review 1 said that we have missed talk about which correlation tests have been used}
 Nova belongs to the OpenStack project, a cloud computing platform with a huge developer community (more than 5,000 developers) and significant industrial support from hundreds of organizations, among them several major IT companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors\footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available in GitHub\footnote{\url{https://github.com/openstack/nova}} and it is developed with git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system and Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
 
 ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has 26,000 commits and 764 contributors. Its labeling policy in the bug tracking system is very strict, thus we can be sure that tickets labeled as bug reports (i.e., the ones analyzed in this paper) are \emph{real} bug reports. ElasticSearch hosts its code in GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}}. The project uses GitHub's issue tracking and pull request system for bug tracking and reviewing.
-
+\gema{Review 1 said that we should detail the research questions, describing the statistical tests used to answer this questions}
 We use in this paper a data set from these two projects created in a prior research work, where we manually analyzed a total of 76 bug fixing commits of real bug reports in detail, looking in each one for the BIC that caused the failure~\cite{gema2016doctoral}. %Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
 
@@ -560,7 +556,7 @@ We use in this paper a data set from these two projects created in a prior resea
 \label{sec:results}
 
 We have calculated the values of TTN, EuBIC and TTF for 76 bug fixing commits, 39 belonging to Nova and 37 belonging to ElasticSearch. %In addition, we compare these values with the values resulting from the SZZ algorithm.
-
+\gema{Review 2 said that a key statistic table for each dataset could be useful}
 Table~\ref{tableNova} and Table~\ref{tableES} show the means of Time To Notify (TTN), Time To Fix (TTF) and Bug Fixing Time (BFT) computed for the Nova and the ElasticSearch projects, respectively. The tables include the values for the \emph{real} BIC (manually checked), and the ones that can be obtained by using the SZZ algorithm.
 
 \begin{table}[!t]
@@ -606,7 +602,7 @@ Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} show the values of T
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotNova.png}
-\caption{Box-plots with TTN, oTTN, pTTN, TTF and EuBIC for the Nova project.}
+\caption{Box-plots with TTN, TTF and EuBIC for the Nova project.}
 \label{fig:meansOfNova}       % Give a unique label
 %\caption{Box-Plot in Nova}
 %\label{fig:graph4}       % Give a unique label
@@ -615,13 +611,13 @@ Figure~\ref{fig:meansOfNova} and Figure~\ref{fig:meansOfES} show the values of T
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{boxplotES.png}
-\caption{Box-plots with TTN, oTTN, pTTN, TTF and EuBIC for the ElasticSearch project.}
+\caption{Box-plots with TTN, TTF and EuBIC for the ElasticSearch project.}
 \label{fig:meansOfES}       % Give a unique label
 %\caption{Box-Plot in ES}
 %\label{fig:graph5}       % Give a unique label
 \end{figure}
 
-Figure~\ref{fig:correlation} shows the correlation matrix between the metrics under analysis for the Nova project. A moderate negative correlation, $-0.56$, between the EuBIC of the author introducing the bug and TTN can be found. The value of this correlation for the ElasticSearch project is $-0.383$, which points to a weaker relationship\footnote{Due to space constrains we do not show a similar figure for ElasticSearch.}.
+Figure~\ref{fig:correlation} shows the correlation matrix between the metrics under analysis for the Nova project. A moderate negative correlation, $-0.56$, between the EuBIC of the author introducing the bug and TTN can be found. The value of this correlation for the ElasticSearch project is $-0.383$, which points to a weaker relationship\footnote{Due to space constrains we do not show a similar figure for ElasticSearch.}.\gema{Review 2 said that why there is no corresponding diagram (correlation) for the ES}
 
 \begin{figure}[ht]
 \centering
@@ -630,7 +626,7 @@ Figure~\ref{fig:correlation} shows the correlation matrix between the metrics un
 \label{fig:correlation}       % Give a unique label
 \end{figure}
 
-Figure~\ref{fig:graph} shows scatterplots with the distribution of each pair of metrics for the Nova project. While we can infer a negative inclination in the relationship between TTN and EuBIC with a $R^2$ percentage value of 0.32, which indicates how closely these two variables are related, the plot for TTN or EuBIC against TTF does not indicate such tendency. 
+Figure~\ref{fig:graph} shows scatterplots with the distribution of each pair of metrics for the Nova project. While we can infer a negative inclination in the relationship between TTN and EuBIC with a $R^2$ value of 0.32, which indicates how closely these two variables are related, the plot for TTN or EuBIC against TTF does not indicate such tendency. 
 
 \begin{figure}[ht]
 \centering
@@ -639,7 +635,7 @@ Figure~\ref{fig:graph} shows scatterplots with the distribution of each pair of 
 \label{fig:graph}       % Give a unique label
 \end{figure}
 
-On the other hand, Figure~\ref{fig:graph1} shows how the variables are related each other in ElasticSearch. In this project, it is difficult to notice the how closely the variables are related, the percentage value of the coefficient $R^2$ in each scatterplot are around 0.09. 
+On the other hand, Figure~\ref{fig:graph1} shows how the variables are related to each other in ElasticSearch. In this project, it is difficult to notice the how closely the variables are related, the value of the coefficient $R^2$ in each scatterplot is around 0.09. 
 
 \begin{figure}[ht]
 \centering
@@ -692,14 +688,13 @@ No & 9 (23\%) & 32 (82\%) & 34 (87\%) &  34 (87\%) \\
 \end{table}
 
 
-
 \section{Discussion}
 \label{sec:discussion}
-
+\gema{Review 1 said that we should discuss the findings in a qualitative way}
 After analyzing several fixing commits in this study, we have seen that the \emph{real} (manually validated) TTN differs from the one computed using the well-known and widely-used SZZ algorithm substantially, identifying different BICs in 36\% of the cases in Nova and in 24\% in ElasticSearch. This is the reason why the mean TTN computed using SZZ is almost half the \emph{real} one. %The principal reasons of this results may be (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The wrong assumption where the earliest commit to the bug fixing commit is the suspicious to be the BIC.
 
 The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. If we want to calculate the median time of bug fixing for each project, we have to add the median TTF to the TTN, obtaining the BFT. The BFT in ElasticSearch does not differ much from the TTN, whereas in Nova it reaches 400 days.
-Kim and Whitehead in~\cite{kim2006long} reported values of BFT that range from 100 to 200 days. In our case studies, only ElasticSearch is in the range, although by very little margin. An explanation for the deviation is because Kim and Whitehead used SZZ to locate the BIC, which we have found is not only always \emph{true}, but provides an optimistic value.
+Kim and Whitehead in~\cite{kim2006long} reported values of BFT that range from 100 to 200 days. In our case studies, only ElasticSearch is in this range, although by very little margin. An explanation for the deviation is because Kim and Whitehead used SZZ to locate the BIC, which we have found is not only always \emph{true}, but provides an optimistic value.
 
 \vspace{0.2cm}
 \fbox{\begin{minipage}{24em}
@@ -715,6 +710,7 @@ We have studied the relationship between the variables under study. We have seen
 \end{minipage}}
 \vspace{0.1cm}
 
+\gema{Review 2 said that how can the results presented in this paper be used to inform developers? If EuBIC is negatively correlated to TTN}
 Given that we have the meta-data from the source code management systems, we could trace how many developers do several tasks in the bug introduction $->$ notification $->$ fixing process. The results show that notifiers often also fix the bugs. Developers who introduced the bug also appear to fix it (after a third party notifies it) and sometimes they even notify the bug without providing a solution. Interestingly enough, we have found that the number of times where a developer is involved in the three tasks for the same bug report is not negligible. These results raise a lot of questions that are very interesting from the community perspective. One possible reason that explains the low percentage of authors who fix their bugs may be because they are no longer in the project when the bug is reported. We have looked for this and have found that the number of authors who have abandoned the project when the bug was reported was only one in ElasticSearch and two in Nova. This means that other reasons have to be more important than code ownership when it comes to a bug. On the contrary, the high percentages of developers notifying and fixing bugs may be because when they reporting the bug, they already know how to fix it, and this might have and impact reducing the time to fix a bug.
 
 All in all, we think that the Time To Notify a bug can demonstrate to be a good metric of a project, as it provides good perspective on how the project is maintained. Other metrics can be easily circumvented, as for instance the number of commits or of mailing list messages, and may result in perverse effects if they are linked with incentives or productivity measures. For TTN (and BFT) this is more difficult to achieve, but not impossible: one could think of a developer introducing a bug and the notifying and fixing it shortly thereafter to obtain lower values.
@@ -749,11 +745,12 @@ The most important external threats are:
 
 The study we have performed on Nova and ElasticSearch has shown that the mean Time To Notify (TTN) a bug is over ten months, whereas using the SZZ algorithm to calculate this metric, we obtain a value slightly higher than five months.
 
-Our study also shows a negative correlation between the TTN and EuBIC, which may indicates that a higher time to notify a fewer experience of the author who created the bug. 
+\gema{Rewording, it's confusing according to the review 2: "Our study also shows a negative correlation between the TTN and EuBIC, which may indicates that a higher time to notify a fewer experience of the author who created the bug".} 
 
 In addition, we propose to build a new field/option in the bug tracking system to record which commit was the BIC, increasing that way the confidence of which previous commit inserted the bug.
 
 Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
+\gema{Review 3 said that we should elaborate more the future work}
 
 \textbf{Replication package}: we have set up a replication package\footnote{\url{http://gemarodri.github.io/Reprodu-Package/}} including data sources, intermediate data and scripts.
 

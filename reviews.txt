@@ -1,0 +1,81 @@
+Review 1: ---------------------
+
+----------- Overall evaluation -----------
+The paper investigates what is the Time To Notify (TTN) a bug (i.e.,  how much time it takes for a bug to be notified/reported in the issue tracking system since the time the bug was introduced into the source code) for two different open-source projects, for which they have manually obtained a ground-truth subset of bugs.
+Moreover, the relationship between TTN and other metrics extracted from the source code management  (such as the author of the bug, the Time To Fix (TTF) or the developer experience system  are investigated). 
+The results showed that the mean of the TTN in the projects was 312 days and 431 days. However, only one of the projects showed a moderate correlation between the experience of the author who created the bug and TTN.
+A replication package is also provided with the paper.
+
+The paper is well written and quite easy to follow. However, it also presents some shortcomings The paper is well written and quite easy to follow. However, it also presents some shortcomings as detailed in the following. Overall I suggest that the authors improve the motivation of the study and the design of the empirical study, and discuss the findings in a more qualitative way in order to improve the paper.
+
+In the abstract the authors state that "TTN is a valuable metric in the software maintenance and evolution studies", however I did not find any explanation in the paper on why it is important (even if it is clearly described in the introduction why it is challenging to compute it). I suggest that the authors clarify this point and add some scenario where this information could be useful. Similarly, it is not clear how important/actionable are the findings of RQs1-2 for researchers and practitioners.
+
+The methodology is quite clear, I suggest that the authors clarify in Section III (Methodology) how bug reports and fixing commits are linked (perhaps this is an additional steps for Figure1?).
+
+The description of the empirical study should be improved: detailed research questions are missing in the evaluation section and the ones in the intro are too vague (as an example, the RQ1 presented in the introduction (analysis of the TNN distributions) do not align with the one answered in the Section IV, (i.e., real vs SZZ). The evaluation criteria are also missing (e.g., which correlation tests have been used?). Therefore  I suggest that the authors (i) clearly state detailed research questions in Section IV and (ii) describe the statistical tests (and any other criteria) used to answer these questions. I also believe that comparison with SZZ algorithm could be mentioned earlier in the paper as one of the goal/contribution of the paper.
+
+
+Minor comments;
+RQ1: what are the values of TTN? --> distributions 
+Figure1: Diagram of the --> The methodology
+need to know identify --> need to identify
+is in the range --> is in this range
+related each other --> related to each other
+
+Review 2: ----------------------------------------------------------
+----------- Overall evaluation -----------
+1) This paper presents interesting research into a study of
+    the time taken from a bug being introduced in source
+    code to it being reported in a bug tracking system.
+ 2) The paper has a few minor grammatical errors throughout, for
+    example there are a number of over long sentences in the 
+    abstract and the first sentence of page 1, column 1 needs
+    rewording: "...the storage and maintaining of effort..."?
+ 3) It would aid the readability of the paper if the key
+    statistics for each of the two datasets used in the paper
+    was summarised in a table (in addition to table 1 and 2).
+ 4) In the captions of figures 3 and 4 there is mention of
+    oTTN and pTTN, but only three values are displayed
+    in the Box-plots.
+ 5) Figure 5 seems a little over the top given that only three
+    correlations need presenting (symmetric and 1's on the
+    leading diagonal).
+ 6) Why is there no corresponding diagram [Figure 5] for 
+    the second dataset ElasticSearch?
+ 7) The sentence in the conclusions starting "Our study also shows"
+    is confusing and needs rewording.
+ 8) How can the results presented in this paper be used to
+    inform developers? If EuBIC is negatively correlated to TTN, how
+    could this be used?
+ 9) In figure 9 should EUB be EuBIC?
+10) For the definition of variable EuBIC, the word experience
+    seems a bit misleading?
+
+Review 3: ------------------------------------
+----------- Overall evaluation -----------
+A very well put together piece of work by authors who have a track-record in this area.
+
+The topic of TTN is very relevant to industry and very topical. The motivation for the 
+work is well-articulated and the methodology comprehensive and clear. Although the 
+empirical basis (two systems) poses a slight threat to validity (the authors do admit
+this in fairness to them) - for Wetsom this paper will generate a lot of interest and 
+discussion. 
+
+The discussion in the paper is interesting and it is very creditworthy that the authors have 
+put together a replication package for other researchers/practitioners. Bravo! Good work! 
+And something which our community should be doing as a basis for any paper 
+acceptance, but sadly don't at the moment. I am as much to blame as anyone.     
+
+This work could easily be extended and I see lots of scope for further work.
+The future work description at the end of the paper 
+does seem a little light - so my only suggestion is to elaborate 
+on that maybe.  
+
+References are fine and the paper is supported by useful figures and tables
+which make the paper easy to read and understand. I don't say that about many
+papers. 
+
+A well conceived, executed and written paper. 
+
+A clear accept in my opinion.
+
