@@ -445,7 +445,7 @@ Bug introduction change; bug seeding metrics;
 \label{sec:intro}
 
 It is well-known that a large amount of the total effort of a software system is spent in maintenance and evolution~\cite{tassey2002economic}, some sources even assigning this phase over 80\% of the total cost. Hence, researchers have spent much effort understanding and characterizing software maintenance and evolution processes. One of the main areas in software maintenance and evolution is related to bug detection and analysis. Metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality have been thus proposed in the research literature~\cite{kim2006long}\cite{mockus2002two}. One of these metrics, the one that this paper is going to analyze is the the \emph{Time To Notify} (TTN) a bug. The TTN is the time that goes from the time where a bug has been introduced in the source code to the time when the wrong behavior is notified in the bug tracking system of a project. 
-\gema{Review 1 said that we should improve the motivation}
+%\gema{Review 1 said that we should improve the motivation}
 
 The concept of TTN provides insight into fundamental aspects of the software maintenance of a project that are not easy to obtain, especially in Free/Open Source Software (FOSS) communities -- such as the well-known Mozilla, Eclipse or GNOME projects. In these environments, effort information has historically neither been stored nor maintained in their bug tracking system (e.g., Bugzilla) in spite of the valuable knowledge of the product complexity that it  could provide. Currently, the only bug tracking system that allows store and maintain some type of effort information related to bug fixing activity is JIRA~\cite{weiss2007long}, as it includes an estimate of the time it will take to fix the issue. However, the TTN can be potentially calculated by combining information from the source code management system (SCM) and bug tracking system (BTS). Although it won't directly provide a measure of (human) effort, it is a proxy of efficiency: low values of TTN means a better maintained software (with code being changed/tested continuously), while higher values may denote less maintained software (with potential risks being present for longer periods of time).
 \gema{Review 1 said that the paper needs writing some examples or scenarios where TTN could be useful--- In my opinion the above paragraph is an example of where TTN could be useful----}
@@ -560,7 +560,7 @@ To better understand how the results from the research questions are related wit
 \label{sec:results}
 
 We have calculated the values of TTN, EuBIC and TTF for 76 bug fixing commits, 39 belonging to Nova and 37 belonging to ElasticSearch. %In addition, we compare these values with the values resulting from the SZZ algorithm.
-\gema{Review 2 said that a key statistic table for each dataset could be useful}
+%\gema{Review 2 said that a key statistic table for each dataset could be useful}
 Table~\ref{tableNova} and Table~\ref{tableES} show the means of Time To Notify (TTN), Time To Fix (TTF) and Bug Fixing Time (BFT) computed for the Nova and the ElasticSearch projects, respectively. The tables include the values for the \emph{real} BIC (manually checked), and the ones that can be obtained by using the SZZ algorithm.
 
 \begin{table}[!t]
