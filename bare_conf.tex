@@ -447,13 +447,13 @@ Bug introduction change; bug seeding metrics;
 It is well-known that a large amount of the total effort of a software system is spent in maintenance and evolution~\cite{tassey2002economic}, some sources even assigning this phase over 80\% of the total cost. Hence, researchers have spent much effort understanding and characterizing software maintenance and evolution processes. One of the main areas in software maintenance and evolution is related to bug detection and analysis. Metrics such as the \emph{Time To Fix} (TTF), the \emph{Time To Review} (TTR) or the \emph{fix-effort} to improve code quality have been thus proposed in the research literature~\cite{kim2006long}\cite{mockus2002two}. One of these metrics, the one that this paper is going to analyze is the the \emph{Time To Notify} (TTN) a bug. The TTN is the time that goes from the time where a bug has been introduced in the source code to the time when the wrong behavior is notified in the bug tracking system of a project. 
 %\gema{Review 1 said that we should improve the motivation}
 
-The concept of TTN provides insight into fundamental aspects of the software maintenance of a project that are not easy to obtain, especially in Free/Open Source Software (FOSS) communities -- such as the well-known Mozilla, Eclipse or GNOME projects. In these environments, effort information has historically neither been stored nor maintained in their bug tracking system (e.g., Bugzilla) in spite of the valuable knowledge of the product complexity that it  could provide. Currently, the only bug tracking system that allows store and maintain some type of effort information related to bug fixing activity is JIRA~\cite{weiss2007long}, as it includes an estimate of the time it will take to fix the issue. However, the TTN can be potentially calculated by combining information from the source code management system (SCM) and bug tracking system (BTS). Although it won't directly provide a measure of (human) effort, it is a proxy of efficiency: low values of TTN means a better maintained software (with code being changed/tested continuously), while higher values may denote less maintained software (with potential risks being present for longer periods of time).
-\gema{Review 1 said that the paper needs writing some examples or scenarios where TTN could be useful--- In my opinion the above paragraph is an example of where TTN could be useful----}
+The concept of TTN provides insight into fundamental aspects of the software maintenance of a project that are not easy to obtain, especially in Free/Open Source Software (FOSS) communities -- such as the well-known Mozilla, Eclipse or GNOME projects. In these environments, effort information has historically neither been stored nor maintained in their bug tracking system (e.g., Bugzilla) in spite of the valuable knowledge of the product complexity that it  could provide. Currently, the only bug tracking system that allows store and maintain some type of effort information related to bug fixing activity is JIRA~\cite{weiss2007long}, as it includes an estimate of the time it will take to fix the issue. However, the TTN can be potentially calculated by combining information from the source code management system (SCM) and bug tracking system (BTS). Although it won't directly provide a measure of (human) effort, it is a proxy of efficiency: low values of TTN may indicate better maintained software (with code being changed/tested continuously), while higher values may denote less maintained software (with potential risks being present for longer periods of time).
+%\gema{Review 1 said that the paper needs writing some examples or scenarios where TTN could be useful--- In my opinion the above paragraph is an example of where TTN could be useful----}
 
 To compute the life of a bug in a software, it is necessary to know exactly when and where a bug was introduced. As versioning systems (such as git) are commonly used in modern software development, meta-data (committer, author, time, etc.) on all changes exists, and we could potentially identify what line introduced the bug. However, finding the line of code where the bug was introduced is not a trivial task. Several methods have been proposed to determine what commits are the candidates of having introduced a given bug. The popular SZZ algorithm~\cite{sliwerski2005changes} is one of them: it traces the lines touched in a \emph{fixing} commit back to the time when these lines were modified or added. The main concern in using this algorithm is the that it is prone to provide a wrong measure in some situations that frequently happen during the evolution of a software system. These situations, such as changes in the API, present a common characteristic: the bug was not introduced in the previous commit(s). So, when the line was introduced, the software was correct; the wrong behavior appears due to other, external changes.
 
 
-In this paper, we measure TTN for a set of bugs from two different FOSS projects: ElasticSearch and Nova. Because of previous research performed on them by the authors, we know the exact location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system and also, to compare our measurements of TTN with the ones resulting from the use of SZZ algorithm.
+In this paper, we measure TTN for a set of bugs from two different FOSS projects: ElasticSearch and Nova. Because of previous research performed on them by the authors, we know the exact location of the \emph{Bug Introducing Change} (BIC) for a set of bugs. This means that from a set of ``previous commits'' of each of the fixing lines, we are able to identify what specific previous commit caused the failure in the system. We compare as well our measurements of TTN with the ones obtained with the SZZ algorithm.
 
 Furthermore, to better understand how this is related to the maintenance and evolution of a software, we also analyze the relationship between TTN and other metrics extracted from the SCM system, such as the author of the bug, the time to fix or the developer experience inserting the bug.
 
@@ -465,7 +465,7 @@ Summing up, we are interested in studying the \emph{real} value of TTN to answer
 
 RQ1 shows the statistics of the data analyzed whereas RQ2 shows whether and how strongly pairs of variables are related in software maintenance, understanding how much of the variation in the TTN a bug is related to others characteristics present in the project.
 
-\gema{Review 1 said that we should clarify how important are RQ1 and RQ2 for researchers and practitioners----- Done in the above paragraph!!------------ }
+\gema{Review 1 said that we should clarify how important are RQ1 and RQ2 for researchers and practitioners----- Done in the above paragraph!!------------ } \grex{I think the reviewer is asking for takeaways, on a much more higher level. What you've done is rephrasing the RQs}
 
 Our results reveal that the mean TTN differs from the mean calculated with other methods. In addition, we have found that TTN has a dependency with the experience of the developer who introduced the bug. On the other hand, we note that to measure the TTN is crucial to determine exactly the location of the BIC; so far, now no precise way exists. Thus, we propose a simple idea which may shed some light to this problem.
 
@@ -501,7 +501,7 @@ While the prior studies were built under the assumption that the previous modifi
 \label{sec:methodology}
 
 In our study, the data analyzed has been obtained from the source code management system, the issue tracking system and the code review system. We illustrate our methodology in Figure~\ref{fig:methodology}, where the input is a set of bug reports randomly extracted from the issue tracking system. The steps of our process are given by white boxes; the colored boxes give the sources that have been used to obtain the information required in each step.
-\gema{Review 1 said that we need to write how bug reports and fixing commits are linked, maybe with an additional step in figure~\ref{fig:methodology} ----- solved in the description of STEP 1 ----}
+%\gema{Review 1 said that we need to write how bug reports and fixing commits are linked, maybe with an additional step in figure~\ref{fig:methodology} ----- solved in the description of STEP 1 ----}
 \begin{figure}[ht]
 \centering
 \includegraphics[width=\columnwidth]{methodology.png}
@@ -512,7 +512,7 @@ In our study, the data analyzed has been obtained from the source code managemen
 The following list is a detailed description of the steps: 
 
 \begin{enumerate}
-		\item Find the fixing commit of each bug report. The linkage of both elements was done manually since after fixing a bug, it is common practice in many open source projects, that developers provide information in the bug report, including a link to the commit in the versioning system. 		
+		\item Find the fixing commit of each bug report. The linkage of both elements was done manually since after fixing a bug, it is common practice in many open source projects that developers provide information, including a link to the commit in the versioning system, in the bug report in the issue tracking system. 		
 		\item Find the lines that this commit added, modified or deleted to solve the bug.
 		\item Obtain, for each of those lines, the commit that added, modified or deleted these lines previously. The result is a set with \emph{previous commits} for each line.
 		\item Analyze which one of the previous commits was the BIC. In the case where the preceding commit is not the origin of the bug track back to a previous commit, until the line causing the failure is found. In the case where the fixing commit consist exclusively of new lines, analyze previous commits to nearby lines looking whether in any of them the developer \emph{forgot} to add these lines. It should be noted that the SZZ algorithm discards fixing commits that only add lines.
@@ -539,7 +539,7 @@ Figure~\ref{fig:metrics} provides a visual explanation of the metrics proposed i
 \label{fig:metrics}       % Give a unique label
 \end{figure}
 
-\gema{Review 1 said that the comparison with SZZ should be mentioned earlier in the paper (goal/contribution)---- Fixed in the introduction, column 2 paragraph 3----}
+%\gema{Review 1 said that the comparison with SZZ should be mentioned earlier in the paper (goal/contribution)---- Fixed in the introduction, column 2 paragraph 3----}
 We would like to compare our metrics with the widely used SZZ algorithm. We will therefore assume that the closest commit in time (i.e., the previous one) of the SZZ algorithm is the one that induces the bug-fixing commit, as it has been done in previous works~\cite{eyolfson2011time}. It should be noted, however, that the SZZ algorithm may not identify the BIC correctly, as its outcome could be a set of commits among which the \emph{real} BIC is not included. In addition, in our comparison we discard those fixing commits with only new lines, since the SZZ algorithm removes them from the analysis.
 
 
@@ -551,10 +551,10 @@ We have validated our methodology analyzing tickets from two projects, Nova and 
 Nova belongs to the OpenStack project, a cloud computing platform with a huge developer community (more than 5,000 developers) and significant industrial support from hundreds of organizations, among them several major IT companies such as Red Hat, Intel, IBM, HP, etc. The source code of Nova is written in Python and was particularly of interest because it is continuously evolving due to its very active community. Currently it has more than 44,000 commits with more than 2 million lines of code and around 1,000 contributors\footnote{\url{http://activity.openstack.org/dash/browser/repository.html?repository=nova.git&ds=scm}}. All its code is hosted and available in GitHub\footnote{\url{https://github.com/openstack/nova}} and it is developed with git\footnote{\url{https://git-scm.com/}} as the source code management, Launchpad\footnote{\url{https://launchpad.net/}} as the issue tracking system and Gerrit\footnote{\url{https://www.gerritcodereview.com/}} as the code review system.
 
 ElasticSearch is a distributed FLOSS search and analytics engine written in Java. It has 26,000 commits and 764 contributors. Its labeling policy in the bug tracking system is very strict, thus we can be sure that tickets labeled as bug reports (i.e., the ones analyzed in this paper) are \emph{real} bug reports. ElasticSearch hosts its code in GitHub\footnote{\url{https://github.com/elastic/elasticsearch/}}. The project uses GitHub's issue tracking and pull request system for bug tracking and reviewing.
-\gema{Review 1 said that we should detail the research questions, describing the statistical tests used to answer this questions --- Done at the end of this section!!! ------ }
+%\gema{Review 1 said that we should detail the research questions, describing the statistical tests used to answer this questions --- Done at the end of this section!!! ------ }
 We use in this paper a data set from these two projects created in a prior research work, where we manually analyzed a total of 76 bug fixing commits of real bug reports in detail, looking in each one for the BIC that caused the failure~\cite{gema2016doctoral}. %Thus, once we have the commit that induced the later fix, we calculate the values of the TTN, EuBIC, TTF and the authors of the fixing commit, the bug report, and the bug introducing change.  
 
-To better understand how the results from the research questions are related with the maintenance and evolution of a software from a statistical point of view, we have used the \emph{OLS} (Ordinary Least Square) regression model to calculate what is the dependency of the different variables in the projects. Also, we have used the \emph{Pearson} method to compute the correlation between these variables.
+To better understand how our results are related with the maintenance and evolution of a software, we have used the \emph{OLS} (Ordinary Least Square) regression model to calculate the dependency of the different variables in the projects. We have used as well the \emph{Pearson} method to compute the correlation between the variables.
 
 \section{Results}
 \label{sec:results}
@@ -694,8 +694,8 @@ No & 9 (23\%) & 32 (82\%) & 34 (87\%) &  34 (87\%) \\
 
 \section{Discussion}
 \label{sec:discussion}
-\gema{Review 1 said that we should discuss the findings in a qualitative way}
-After analyzing several fixing commits in this study, we have seen that the \emph{real} (manually validated) TTN differs from the one computed using the well-known and widely-used SZZ algorithm substantially, identifying different BICs in 36\% of the cases in Nova and in 24\% in ElasticSearch. This is the reason why the mean TTN computed using SZZ is almost half the \emph{real} one. %The principal reasons of this results may be (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The wrong assumption where the earliest commit to the bug fixing commit is the suspicious to be the BIC.
+%\gema{Review 1 said that we should discuss the findings in a qualitative way}
+After analyzing several fixing commits in this study, we have seen that \emph{real} (manually validated) TTN values differ substantially from the ones computed using the well-known and widely-used SZZ algorithm, identifying different BICs for 36\% of the cases in Nova and for 24\% in ElasticSearch. This is the reason why the mean TTN computed using SZZ is almost half the \emph{real} one. %The principal reasons of this results may be (1) The bug fixing commit with only new lines are discarded by SZZ and, (2) The wrong assumption where the earliest commit to the bug fixing commit is the suspicious to be the BIC.
 
 The median time to notify a bug is almost 200 days in ElasticSearch and about 350 days in Nova. If we want to calculate the median time of bug fixing for each project, we have to add the median TTF to the TTN, obtaining the BFT. The BFT in ElasticSearch does not differ much from the TTN, whereas in Nova it reaches 400 days.
 Kim and Whitehead in~\cite{kim2006long} reported values of BFT that range from 100 to 200 days. In our case studies, only ElasticSearch is in this range, although by very little margin. An explanation for the deviation is because Kim and Whitehead used SZZ to locate the BIC, which we have found is not only always \emph{true}, but provides an optimistic value.
@@ -746,29 +746,28 @@ The most important external threats are:
 \section{Conclusion and further research}
 \label{sec:conclusions}
 
-The study we have performed on Nova and ElasticSearch has shown that the mean Time To Notify (TTN) a bug is over ten months, whereas using the SZZ algorithm to calculate this metric, we obtain a value slightly higher than five months.
+The study we have performed on Nova and ElasticSearch has shown that the mean Time To Notify (TTN) a bug is over ten months, whereas using the SZZ algorithm to calculate this metric we obtain a value slightly higher than five months.
 
-\gema{One reviewer said that this sentence is not understandable: "Our study also shows a negative correlation between the TTN and EuBIC, which may indicates that the higher time to notify, the fewer experience of the author who created the bug" ---- DONE in the next sentence --------}.
+%\gema{One reviewer said that this sentence is not understandable: "Our study also shows a negative correlation between the TTN and EuBIC, which may indicates that the higher time to notify, the fewer experience of the author who created the bug" ---- DONE in the next sentence --------}.
 
-Our study shows negative correlation between the TTN and EuBIC, which shows that the time to notify the error is related to the overall experience of the author.  
+Our study shows a negative correlation between the TTN and EuBIC, which means that the time to notify an error is related to the overall experience of the author.  
 
 In addition, we propose to build a new field/option in the bug tracking system to record which commit was the BIC, increasing that way the confidence of which previous commit inserted the bug.
 
 Once we have found this, it makes sense to explore, as future work, to which extent this happens in other projects with probably higher number of tickets and with a higher number metrics.
 
-Of course, another future line is a detailed research on how this metric could help in defect prediction filed, building new models or improving them. 
+Another future line could be to perform a detailed research on how this metric could be helpful in defect prediction filed, building new models or improving them. \grex{defect prediction filed?}
 
-The full automation of the methodology used in this paper is also interesting from a practical point of view. That would provide software projects with a valuable tool for understanding how they are introducing bugs, and therefore calculate this metrics for mitigation.
+The full automation of the methodology used in this paper is also interesting from a practical point of view. That would provide software projects with a valuable tool for understanding how bugs are introduced, and therefore calculate these metrics for mitigation.
 
-
-\gema{Review 3 said that we should elaborate more the future work---DONE in the last 2 paragraphs at this section ---! }
+%\gema{Review 3 said that we should elaborate more the future work---DONE in the last 2 paragraphs at this section ---! }
 
 \textbf{Replication package}: we have set up a replication package\footnote{\url{http://gemarodri.github.io/Reprodu-Package/}} including data sources, intermediate data and scripts.
 
 
 \section*{Acknowledgments}
 
-We want to express our gratitude to Bitergia\footnote{\url{http://bitergia.com/}} for their open source tools to mine the repositories of the projects, and the support they have provided when questions have arisen. Also, we acknowledge the Spanish Government, through project TIN2014-59400-R. The last two authors are funded in part as well by the Region of Madrid under project ``eMadrid: Investigación y Desarrollo de tecnologías educativas en la Comunidad de Madrid'' (S2013/ICE-2715).
+We want to express our gratitude to Bitergia\footnote{\url{http://bitergia.com/}} for their open source tools to mine the repositories of the projects, and the support they have provided when questions have arisen. Also, we acknowledge the Spanish Government, through project TIN2014-59400-R. The last two authors are funded in part as well by the Region of Madrid under project ``eMadrid: Investigaci\'on y Desarrollo de tecnolog\'ias educativas en la Comunidad de Madrid'' (S2013/ICE-2715).
 
 % trigger a \newpage just before the given reference
 % number - used to balance the columns on the last page
